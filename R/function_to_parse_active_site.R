@@ -1,8 +1,6 @@
 library(readxl)
 library(tidyverse)
 library(hongR)
-# main function
-
 #' Function to parse the UniProt annotation with only single site(?)
 #'
 #' @param site_dataframe a dataframe to store the active site annotation from UniProt database
