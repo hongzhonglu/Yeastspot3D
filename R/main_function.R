@@ -291,16 +291,6 @@ preprocessSNP <- function(gene0) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 # this function can produce the amino acid seq based on cds sequence
 getProteinFromCDS <- function (cds0){
   #input
@@ -568,12 +558,23 @@ getPvalue <- function(wap_initial, wap_sampling) {
 }
 
 
+
+
+
+
 #example to calculate closeness centrality
 #install.packages("CINNA")
 #library(CINNA)
 #g <- graph(c(1,2,2,3,3,4,4,2))
 #plot(g, edge.arrow.size=.4)
 #closeness.residual(g)
+
+
+
+
+
+
+
 
 
 #part 2 function related to hot spot analysis
