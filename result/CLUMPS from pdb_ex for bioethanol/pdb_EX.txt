@@ -1,0 +1,1 @@
+"locus"	"pdbid"	"qstart2"	"qend2"	"sstart2"	"send2"
