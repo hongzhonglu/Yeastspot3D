@@ -13,18 +13,13 @@ library(readr)
 
 
 
-#' this function is used to filter fasta file of genes which belong to metabolic
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to filter fasta file of genes which belong to metabolic
 filterMetabolicGene <- function() {
   geneName0 <- list.files("1011_project")
   geneMetabolic <- paste(str_trim(gene_feature_GEM$locus_tag, side = "both"), ".fasta", sep = "")
   geneMetabolic0 <- intersect(geneName0, geneMetabolic)
   dir.create("target_gene")
-
+  
   for (i in seq_along(geneMetabolic0)) {
     geneX <- geneMetabolic0[i]
     file0 <- paste("1011_project/", geneX, sep = "")
@@ -33,15 +28,8 @@ filterMetabolicGene <- function() {
 }
 
 
-
-#' this function is used to just preprocess the fasta file without filteration, used for the early version
-#'
-#' @param gene_test
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to just preprocess the fasta file without filteration
+#used for the early version
 processFasta <- function(gene_test) {
   # read each fasta file and change it into a dataframe
   #gene_test <- "YIL160C.fasta"
@@ -50,29 +38,20 @@ processFasta <- function(gene_test) {
   # obtain the strain name information and sequence information
   seq_name <- names(fastaFile)
   sequence <- paste(fastaFile)
-
+  
   # establish a dataframe contains the strain name and sequnece information
   df <- data.frame(seq_name, sequence, stringsAsFactors = FALSE)
   df_list <- list()
   for (i in seq(length(df$sequence))) {
     df_list[i] <- str_split(df$sequence[i], "")
   }
-
+  
   return(df_list)
 }
 
 
 
-
-#' this function is used to choose the gene based on strain phenotype information
-#'
-#' @param gene_test
-#' @param strain_select
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to choose the gene based on strain phenotype information
 filterMutationStrainType <- function(gene_test, strain_select) {
   # read each fasta file and change it into a dataframe
   # then the filter can be used for each dataframe to obtain the strains we need
@@ -83,33 +62,33 @@ filterMutationStrainType <- function(gene_test, strain_select) {
   # obtain the strain name information and sequence information
   seq_name <- names(fastaFile)
   sequence <- paste(fastaFile)
-
+  
   # establish a dataframe contains the strain name and sequnece information
   df <- data.frame(seq_name, sequence, stringsAsFactors = FALSE)
   strain_select['index_strain'] <- paste(strain_select$Standardized_name, "_", gene_name_test, "_", sep = "")
-
-
+  
+  
   for (j in seq_along(df$seq_name)) {
     exist_sign <- vector()
     for (i in seq_along(strain_select$index_strain)) {
       exist_sign[i] <- str_detect(df$seq_name[j], strain_select$index_strain[i])
     }
-
+    
     if (any(exist_sign) == TRUE) {
       df$choosed[j] <- "YES"
     } else {
       df$choosed[j] <- "NO"
     }
   }
-
+  
   df_refine <- filter(df, choosed == "YES")
-
-
+  
+  
   df_list <- list()
   for (i in seq(length(df_refine$sequence))) {
     df_list[i] <- str_split(df_refine$sequence[i], "")
   }
-
+  
   dir.create("target_gene_processed")
   filename0 <- paste("target_gene_processed/",gene_name_test, ".RData", sep = "")
   save(df_list, file = filename0)
@@ -117,25 +96,17 @@ filterMutationStrainType <- function(gene_test, strain_select) {
 }
 
 
-
-#' changeATCG should be used to firstly,if the cds from the minus strand
-#' get the mutation information on the minus strand based on that from the positive strand
-#' The followed exlain that why we need changeATCG for gene from minus strand
-#' Both + and - strands have 5'-3' and 3'-5' directions, however, the genomic coordinates refer
-#' to only the 5'-3' direction of the reference, +, strand. Your second statement is indeed correct.
-#' Another illustrative example, if you want to find the transcription start site (TSS) of a gene that
-#' spans the region of (in genomic coordinates) 10800 to 11200 in, say, chromosome 11, then you should
-#' also consider which strand the gene is located in. Let's say the base at 10800 is A and the base at
-#' 11200 is C. If the gene is in the + strand, than 10800-11200 refer to the 5'-3' of the gene, hence
-#' the TSS is 10800 A. If the genes is in the - strand, then 10800-11200 (always for + strand) corresponds
-#' to the 3'-5' direction of the gene located in the complementary strand, hence the TSS is 11200 G (complementar to C).
-#'
-#' @param ss
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#changeATCG should be used to firstly,if the cds from the minus strand
+#get the mutation information on the minus strand based on that from the positive strand
+#The followed exlain that why we need changeATCG for gene from minus strand
+#Both + and - strands have 5'-3' and 3'-5' directions, however, the genomic coordinates refer 
+#to only the 5'-3' direction of the reference, +, strand. Your second statement is indeed correct. 
+#Another illustrative example, if you want to find the transcription start site (TSS) of a gene that 
+#spans the region of (in genomic coordinates) 10800 to 11200 in, say, chromosome 11, then you should 
+#also consider which strand the gene is located in. Let's say the base at 10800 is A and the base at 
+#11200 is C. If the gene is in the + strand, than 10800-11200 refer to the 5'-3' of the gene, hence 
+#the TSS is 10800 A. If the genes is in the - strand, then 10800-11200 (always for + strand) corresponds 
+#to the 3'-5' direction of the gene located in the complementary strand, hence the TSS is 11200 G (complementar to C).
 changeATCG <- function (ss){
   # this function was used to get the mutation information from the minus strand based on the mutation information
   # on the positive strand
@@ -154,16 +125,10 @@ changeATCG <- function (ss){
 
 
 
-#' this function is used to check whether the translated protein is equal to the protein sequence
-#' from the sgd database, if they are equal, the original cds sequence and protein sequence is consistent in
-#' our program
-#'
-#' @param gene_seq_inf
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
+# this function is used to check whether the translated protein is equal to the protein sequence
+# from the sgd database, if they are equal, the original cds sequence and protein sequence is consistent in
+# our program
 checkTanslatedProtein <- function(gene_seq_inf) {
   #input
   #a gene feature dataframe, each row contains the gene annotation information, like the coordinates, the cds sequence
@@ -191,14 +156,8 @@ checkTanslatedProtein <- function(gene_seq_inf) {
 }
 
 
-
-#' this function is used to obtain the metabolic gene list which have SNP, in total there are 36 metabolic genes which
-#' don't have the mutation
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to obtain the metabolic gene list which have SNP, in total there are 36 metabolic genes which
+#don't have the mutation
 getGeneNameWithSNP <- function() {
   #input
   #the dir of  file 'gene_snp'
@@ -216,16 +175,9 @@ getGeneNameWithSNP <- function() {
 }
 
 
-#' this function is used to proprocess all the snp for one gene belong to a sample set
-#' it should be noted that if the gene belong to minus strand, changeATCG function will be used
-#' be careful about the file directory
-#'
-#' @param gene0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to proprocess all the snp for one gene belong to a sample set
+#it should be noted that if the gene belong to minus strand, changeATCG function will be used
+#be careful about the file directory
 preprocessSNP <- function(gene0) {
   # inut a gene name,
   # then the function will read all the SNP information for this gene
@@ -246,20 +198,13 @@ preprocessSNP <- function(gene0) {
       mutated_gene0$Alt[i] <- mutated_gene0$Alt[i]
     }
   }
-
+  
   return(mutated_gene0)
 }
 
 
 
-#' this function can produce the amino acid seq based on cds sequence
-#'
-#' @param cds0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+# this function can produce the amino acid seq based on cds sequence
 getProteinFromCDS <- function (cds0){
   #input
   #cds0, ATGGAAATGA ---cds seq
@@ -273,26 +218,19 @@ getProteinFromCDS <- function (cds0){
 
 
 
-#' function to get the coordinate information of domain occured in each gene
-#'
-#' @param dataframe0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+# function to get the coordinate information of domain occured in each gene
 getDomainCoordinate <- function(dataframe0) {
   # input
   # a dataframe contains the pdb information for each gene, the first column named 'locus' should
   # contain the geneID
-
+  
   # output
   # a dataframe contains the pdb information with the domain coordinates
   # firstly read the pfam annotation data
   domain_pfam0 <- read.table('data/domain_pfam0_for_SNP_pipeline.txt', header = TRUE, sep = "\t")
-
+  
   pdb_Ex0 <- dataframe0
-
+  
   colnames0 <- colnames(pdb_Ex0)
   colnames1 <- c("domain_name", "domain_decription", "type", "domain_start0", "domain_end0")
   colnames2 <- c(colnames0,  colnames1)
@@ -317,7 +255,7 @@ getDomainCoordinate <- function(dataframe0) {
           domain0$domain_end0[i] <- "NA"
         }
       }
-
+      
       # merge domain information
       domain0 <- domain0 %>% unite(., "domain_inf", colnames1, sep = "##")
       print(domain0$domain_inf)
@@ -327,51 +265,42 @@ getDomainCoordinate <- function(dataframe0) {
       domain_all[[j]] <- "NA"
     }
   }
-
+  
   ss <- pdb_Ex0 %>% unite(., pdb_inf, colnames0, sep = "##")
-
+  
   domain_all0 <- list()
   for (i in seq_along(ss$pdb_inf)) {
     domain_all0[[i]] <- paste(ss$pdb_inf[i], domain_all[[i]], sep = "##")
   }
-
+  
   domain_all1 <- data.frame(pdb_inf = unique(unlist(domain_all0)), stringsAsFactors = FALSE)
   domain_all2 <- domain_all1 %>% separate(., pdb_inf, into = colnames2, sep = "##")
-
+  
   # remove the domain without coordinate
   domain_all2 <- filter(domain_all2, domain_start0 !='NA' & domain_end0 !='NA')
-
+  
   return(domain_all2)
 }
 
 
-
-
-#' the followed two function  were used to estimate the mutation information based on input DNA fasta file
-#' ---------------version 1
-#' @param alted_seq
-#' @param geneName
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#---------------version 1
+#the followed two function  were used to estimate the mutation information based on input DNA fasta file
 findPPosition0 <- function(alted_seq, geneName){
   #this function is used to find the postion of mutated amino acids based on genomics mutation
   #alted_seq <- df_list[[1]]
   #geneName <- 'YAL012W'
   gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
   gene_snp[['gene']] <- alted_seq
-
+  
   #translation
   #using package seqinr
   realcds <- str_to_lower(paste(gene_snp[['gene']],collapse = ""))
   toycds <- s2c(realcds)
   gene_snp[['protein_mutated']] <- translate(seq = toycds)
-
+  
   #find the relative postion of mutated amino acids
   aa_position <- which(gene_snp[['protein']] != gene_snp[['protein_mutated']] )
-
+  
   #calculate the mutation number in the mutated postion (for specific strain -x)
   gene_snp[['mutation_position']] <- rep(0,length(gene_snp[['protein']])) #initialize the start value for each positions
   gene_snp[['mutation_position']][aa_position] <- 1
@@ -379,18 +308,8 @@ findPPosition0 <- function(alted_seq, geneName){
   return(result)
 }
 
-
-
-#' function to obtain the mutation of amino acids residue in the 3d structure based on sequence blast anlysis
-#' but it can be very dangeous using this method, as the insertion or deletion could lead to many mutation in a seq
-#'
-#' @param geneName
-#' @param mutated_gene_seq
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#function to obtain the mutation of amino acids residue in the 3d structure based on sequence blast anlysis
+#but it can be very dangeous using this method, as the insertion or deletion could lead to many mutation in a seq
 countMutationProtein0 <- function (geneName, mutated_gene_seq){
 
   #mutated_gene_seq <- df_list
@@ -401,29 +320,20 @@ countMutationProtein0 <- function (geneName, mutated_gene_seq){
   for (i in seq(length(mutated_gene_seq))){
     if(length(gene_snp[['gene']]) != length(df_list[[i]])) {
       tt <- tt + rep(0,length(gene_snp[['protein']]))
-    }
+       }
     ##to avoide the insertion or deletion in the seq
     else{
       tt <- tt + findPPosition0(df_list[[i]],geneName)
-    }
+      }
   }
-
+  
   return(tt)
 }
 
+#----------------vesion 2 
+#the followed two function  were used to estimate the mutation information based on single SNP information
 
-
-#' the followed two function  were used to estimate the mutation information based on single SNP information
-#' using function to obtain the each gene's mutation information based on the processed mutation data
-#' ----------------vesion 2
-#'
-#' @param gene_name
-#' @param mutation_annotation
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#using function to obtain the each gene's mutation information based on the processed mutation data
 countMutationProtein <- function (gene_name, mutation_annotation=mutated_gene1){
   #this function could produce the all the results about mutated amino acids information
   #gene_name <- "YDL205C"
@@ -432,38 +342,27 @@ countMutationProtein <- function (gene_name, mutation_annotation=mutated_gene1){
   for (i in seq(length(mutated_gene0$Gene2))){
     tt <- tt + findPPosition(mutated_gene0$Pos[i],mutated_gene0$Alt[i],gene_name)
   }
-
+  
   return(tt)
 }
 
-
-
-#' this function is used to find the postion of mutated amino acids based on genomics mutation
-#'
-#' @param mutatedPosition
-#' @param alted
-#' @param geneName
-#'
-#' @return
-#' @export
-#'
-#' @examples
 findPPosition <- function(mutatedPosition, alted, geneName){
+  #this function is used to find the postion of mutated amino acids based on genomics mutation
   #mutatedPosition = 93192
   #alted ='A'
   mutation_position <- which(gene_snp[['gene_coordinate']]==mutatedPosition)
   gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
   gene_snp[['gene']][mutation_position] <- alted
-
+  
   #translation
   library(seqinr)
   realcds <- str_to_lower(paste(gene_snp[['gene']],collapse = ""))
   toycds <- s2c(realcds)
   gene_snp[['protein_mutated']] <- translate(seq = toycds)
-
+  
   #find the relative postion of mutated amino acids
   aa_position <- which(gene_snp[['protein']] != gene_snp[['protein_mutated']] )
-
+  
   #calculate the mutation number in the mutated postion (for specific strain -x)
   gene_snp[['mutation_position']] <- rep(0,length(gene_snp[['protein']])) #initialize the start value for each positions
   gene_snp[['mutation_position']][aa_position] <- 1
@@ -476,39 +375,23 @@ findPPosition <- function(mutatedPosition, alted, geneName){
 
 
 
-#' fuction to calculate the standard samples contained the mutation in the specific postion
-#'
-#' @param sample_num
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#fuction to calculate the standard samples contained the mutation in the specific postion
 sampleStand <- function (sample_num){
   ss <- sample_num^3/(2^3+sample_num^3)
   return(ss)
 }
 
 
-#' function to calculate the initial WAP value
-#'
-#' @param mutated_pos
-#' @param sample0
-#' @param distance
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#function to calculate the initial WAP value
 getTotalWAP <- function (mutated_pos, sample0, distance){
   #input
   #mutated_pos   a vector contained all mutated psotion
   #sample0       a vector contained the strandard num of sample contains the above mutation
   #distance      a matrix contrains the pair distance
-
+  
   #output
   #wap1          a num
-
+  
   all_pair <- combn(mutated_pos, 2)
   wap1 <- 0
   t=6
@@ -520,30 +403,16 @@ getTotalWAP <- function (mutated_pos, sample0, distance){
     #calculate wap for each pair
     wap1 <- wap1 + n1*n2*exp(-d0[1]^2/2/t^2)
   }
-
+  
   return(wap1)
-
+  
 }
 
-
-
-
-#' function to calculate the sample WAP
-#'
-#' @param mutated_pos
-#' @param sample0
-#' @param distance
-#' @param seq
-#' @param n
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#function to calculate the sample WAP
 getSampleWAP <- function(mutated_pos, sample0, distance, seq=seq0, n=10000){
   m <- length(mutated_pos)
   fixed_sample <- sample0[mutated_pos]
-
+  
   wap_sample <- vector()
   for (i in 1:n){
     sample_position <- sample(seq, m, replace = FALSE, prob = NULL)
@@ -553,34 +422,26 @@ getSampleWAP <- function(mutated_pos, sample0, distance, seq=seq0, n=10000){
     wap_sample[i] <- getTotalWAP(pos_mutation_t0,sample_standard_zero,distance)
     #print(sample_position)
   }
-
+  
   return(wap_sample)
 }
 
 
 
-#' function to plot the desity graph
-#' the wap_original0 now can be added as a line in x-axis
-#'
-#' @param wap_sample
-#' @param wap_original0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#function to plot the desity graph
+#the wap_original0 now can be added as a line in x-axis
 plotNullDistribution <- function(wap_sample, wap_original0=FALSE) {
   plot(density(wap_sample),
        frame = FALSE, col = "black",
        main = "Density",
        xlab = "WAP",
        ylab = "Density"
-
+       
   )
   if(wap_original0 !=FALSE){
     abline(v=wap_original0, col="blue", lty=2)
   }
-
+  
   plot(ecdf(wap_sample),
        main = "Cumulative density",
        xlab = "WAP",
@@ -593,24 +454,16 @@ plotNullDistribution <- function(wap_sample, wap_original0=FALSE) {
 
 
 
-#' function to calculate the right-tailed p value
-#'
-#' @param wap_initial
-#' @param wap_sampling
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#function to calculate the right-tailed p value
 getPvalue <- function(wap_initial, wap_sampling) {
-
+  
   #input:
   #wap_initial  a num
   #wap_sampling a vector of wap obtained sampling method
-
+  
   #output:
   #right tailed p value
-
+  
   index1 <- which(wap_sampling >= wap_initial)
   tail.prob <- (length(index1) + 1) / length(wap_sampling)
   #print(tail.prob)
@@ -622,34 +475,40 @@ getPvalue <- function(wap_initial, wap_sampling) {
 
 
 
+#example to calculate closeness centrality
+#install.packages("CINNA")
+#library(CINNA)
+#g <- graph(c(1,2,2,3,3,4,4,2))
+#plot(g, edge.arrow.size=.4)
+#closeness.residual(g)
 
-#' part 2 function related to hot spot analysis
-#'
-#' this function return the mutated informaiton based on genomics fasta information
-#' this function is used to establish the relation between the mutated amino acid and related position
-#' @param alted_seq
-#' @param geneName
-#'
-#' @return
-#' @export
-#'
-#' @examples
+
+
+
+
+
+
+
+
+#part 2 function related to hot spot analysis
+#this function return the mutated informaiton based on genomics fasta information
+#this function is used to establish the relation between the mutated amino acid and related position
 PositionResidue <- function(alted_seq, geneName) {
   #alted_seq <- df_list[[6]]
   #geneName <- "YAL012W"
   gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
   gene_snp[["gene"]] <- alted_seq
-
+  
   # translation
   library(seqinr)
   realcds <- str_to_lower(paste(gene_snp[["gene"]], collapse = ""))
   toycds <- s2c(realcds)
   gene_snp[["protein_mutated"]] <- translate(seq = toycds)
-
+  
   # find the relative postion of mutated amino acids
   aa_position <- which(gene_snp[["protein"]] != gene_snp[["protein_mutated"]])
   aa_type <- gene_snp[["protein_mutated"]][aa_position]
-
+  
   # built the relation between aa_position and aa_type
   # aa_postion and aa_type should contain one element
   mutatedAA <- paste(aa_type, aa_position, sep = "@@") # this estabolish the relation between the postion and mutated amino acids
@@ -658,35 +517,26 @@ PositionResidue <- function(alted_seq, geneName) {
 
 
 
-#' this function return the mutated informaiton based on SNP information: mutated position and changed amino acids
-#'
-#' @param mutatedPosition
-#' @param alted
-#' @param geneName
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function return the mutated informaiton based on SNP information: mutated position and changed amino acids
 PositionResidueSNP <- function(mutatedPosition, alted, geneName) {
   #mutatedPosition = 130975
   #alted ='A'
   #geneName = "YAL012W"
   gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
   mutation_position <- which(gene_snp[['gene_coordinate']]==mutatedPosition)
-
+  
   gene_snp[['gene']][mutation_position] <- alted
-
+  
   # translation
   #library(seqinr)
   realcds <- str_to_lower(paste(gene_snp[["gene"]], collapse = ""))
   toycds <- s2c(realcds)
   gene_snp[["protein_mutated"]] <- translate(seq = toycds)
-
+  
   # find the relative postion of mutated amino acids
   aa_position <- which(gene_snp[["protein"]] != gene_snp[["protein_mutated"]])
   aa_type <- gene_snp[["protein_mutated"]][aa_position]
-
+  
   # built the relation between aa_position and aa_type
   # aa_postion and aa_type should contain one element
   mutatedAA <- paste(aa_type, aa_position, sep = "@@") # this estabolish the relation between the postion and mutated amino acids
@@ -695,47 +545,31 @@ PositionResidueSNP <- function(mutatedPosition, alted, geneName) {
 
 
 
-#' this function is used to put the residue from the same postion together
-#'
-#' @param pos_residue
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to put the residue from the same postion together
 ResidueSum <- function(pos_residue) {
   pos_residue <- unlist(pos_residue)
   pos_residue_df <- data.frame(pos_aa = pos_residue, pos_aa1 = pos_residue, stringsAsFactors = FALSE)
   pos_residue_df <- pos_residue_df %>% separate(., pos_aa1, into = c("residue", "position"), sep = "@@")
-
+  
   pos_residue_df0 <- data.frame(pos = unique(pos_residue_df$position), stringsAsFactors = FALSE)
   pos_residue_df0$residue <- getMultipleReactionFormula(pos_residue_df$pos_aa, pos_residue_df$position, pos_residue_df0$pos)
   pos_residue_df0$pos <- as.numeric(pos_residue_df0$pos)
-
+  
   return(pos_residue_df0)
 }
 
 
-#' this function is from hongR
-#'
-#' @param gene
-#' @param rxn
-#' @param sep0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is from hongR
 splitAndCombine <- function(gene, rxn,sep0) { ##one rxn has several genes, this function was used to splite the genes
-
+  
   gene <- str_split(gene, sep0)
   tt<- length(gene)
   gene0 <- list()
   for (i in 1:tt){
     gene0[[i]] <- paste(rxn[i], gene[[i]], sep = "@@@")
-
+    
   }
-
+  
   gene1 <- unique(unlist(gene0)) # the duplicated element is not deleted
   gene2 <- str_split(gene1, "@@@" )
   rxnGene <- data.frame(v1=character(length(gene2)),stringsAsFactors = FALSE)
@@ -744,42 +578,32 @@ splitAndCombine <- function(gene, rxn,sep0) { ##one rxn has several genes, this 
     rxnGene$v1[j] <- gene2[[j]][2]
     rxnGene$v2[j] <- gene2[[j]][1]
   }
-
+  
   return(rxnGene)
 }
 
 
-#' this function is used to get the vertices
-#'
-#' @param aa_3d
-#' @param residue0
-#' @param aa_pro
-#' @param distance0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to get the vertices
 getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
   #input
   #aa_3d  a vector for the coordinate of PDB structure
   #residue0  a vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
   #aa_pro a vector for the original coordinate of protein aa sequence
   #ditance  a matrix for the distance of the paired residue of pdb structure
-
+  
   #output
   #dataframe contains the inforation of the mutated residues
-
-
+  
+  
   #function test
-  #"YAL012W" sequence and structure is used
+  #"YAL012W" sequence and structure is used 
   #aa_3d = seq0
   # residue0 = residue_3D
   # aa_pro = seq_from_3D
   # distance0 = ResidueDistance_1n8p
-
-
-
+  
+  
+  
   # establish the structure coordinate and all the residues
   # it should be noted that the duplicated mutation in the same position is not considered
   # the reason to omit the duplicated mutation: to remove so many paired residues
@@ -792,7 +616,7 @@ getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
   pos_residue_3d$residue <- paste(pos_residue_3d$residue, pos_residue_3d$pos_3d, sep = "@@")
   all_pair <- combn(pos_residue_3d$residue, 2)
   all_pair0 <- as.data.frame(t(all_pair))
-
+  
   # choose the cluste based on p value, Distance between two pair and sperated residues(>20)
   all_pair1 <- all_pair0 %>%
     separate(., V1, into = c("residue", "c1"), sep = "@@") %>%
@@ -800,12 +624,12 @@ getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
   all_pair1[1:10, ]
   all_pair1$c1 <- as.numeric(all_pair1$c1)
   all_pair1$c2 <- as.numeric(all_pair1$c2)
-
+  
   all_pair_distance <- vector()
   for (i in seq_along(all_pair1$residue)) {
     all_pair_distance[i] <- distance0[all_pair1$c1[i], all_pair1$c2[i]]
   }
-
+  
   # calculate the distance between all pair (how many amino acids separate the pair)
   pos_initial <- aa_3d #1:length(aa_pro) # why use aa_pro???? now it is changed into aa_3d as the distance could be queried based on aa_3d
   all_distance <- vector()
@@ -815,53 +639,43 @@ getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
     d0 <- distance0[s1[1], s1[2]]
     all_distance[i] <- d0
   }
-
-
+  
+  
   # first filter based on aa_distance and space distance
   all_pair0$aa_distance <- abs(all_pair1$c1 - all_pair1$c2)
   all_pair0$distance <- all_pair_distance
   all_pair2 <- all_pair0[which((all_pair0$aa_distance > 20 & all_pair0$distance <= 10) | all_pair0$aa_distance == 0), ]
-
+  
   # calculate the P value for each pair of amino acids based on the distance
   for (i in seq_along(all_pair2$distance)) {
     distance0 <- all_pair2$distance[i]
     all_pair2$pvalue_pair[i] <- length(which(all_distance <= distance0)) / length(all_distance)
   }
-
+  
   all_pair3 <- all_pair2[which(all_pair2$pvalue_pair < 0.05), ]
   return(all_pair3)
 
 }
 
 
-#' this function is used to establish the mapping in the coordinate from protein structure and from protein sequence
-#'
-#' @param aa_3d
-#' @param residue0
-#' @param aa_pro
-#' @param distance0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to establish the mapping in the coordinate from protein structure and from protein sequence
 mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0, aa_pro, distance0) {
   #input
   #aa_3d  a vector for the coordinate of PDB structure
   #residue0  a vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
   #aa_pro a vector for the original coordinate of protein aa sequence
   #ditance  a matrix for the distance of the paired residue of pdb structure
-
+  
   #output
   #dataframe contains the old coordinate from protein sequence and new coordinate from structure
-
-
+  
+  
   #function test
   aa_3d = seq_3D
   residue0 = residue_3D
   aa_pro = seq_3D_origin
   distance0 = ResidueDistance
-
+  
   # establish the structure coordinate and all the residues
   # it should be noted that the duplicated mutation in the same position is not considered
   # the reason to omit the duplicated mutation: to remove so many paired residues
@@ -877,16 +691,6 @@ mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0, aa_pro, distance0)
   return(pos_residue_3d)
 }
 
-
-#' this function is used to get the original residues coordinates for the hotspot analysis based on the protein structure
-#'
-#' @param coordinate0
-#' @param coordinate_mapping0
-#'
-#' @return
-#' @export
-#'
-#' @examples
 getOriginalCoordinateProtein <- function(coordinate0,coordinate_mapping0){
   coordinate1 <- str_split(coordinate0, ";")
   new_coordinate0 <- vector()
@@ -899,28 +703,20 @@ getOriginalCoordinateProtein <- function(coordinate0,coordinate_mapping0){
     print(s1)
     s1 <- paste0(s1,collapse = ";")
     new_coordinate0[i] <- s1
-
+    
   }
   return(new_coordinate0)
 }
 
 
-
-#' this function is used to obtain the cluster analysis results
-#'
-#' @param residueInf
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to obtain the cluster analysis results
 clusterAnalysis <- function(residueInf) {
   #input
   #residueInf  dataframe contains the detailed information about the residue
-
+  
   #output
   # a dataframe contains the cluster information
-
+  
   # obtain the clusters
   links <- data_frame(from = residueInf$V1, to = residueInf$V2, weight = residueInf$distance)
   g <- graph_from_data_frame(d = links, directed = FALSE)
@@ -937,15 +733,15 @@ clusterAnalysis <- function(residueInf) {
     detail_mutant_position0[[i]] <- names(clust2)
     position_combine[i] <- paste0(names(clust2), collapse = ";")
   }
-
-
+  
+  
   closeness0 <- list()
   cluster_closeness <- vector()
   dg <- decompose.graph(g)
   for (i in seq_along(dg)) {
     ##weights represent the distance between the node, has been contained in dg, E(dg).weight could be
     ##used to check the weiht information in each subgraph
-    closeness0[[i]] <- closeness.residual(dg[[i]])
+    closeness0[[i]] <- closeness.residual(dg[[i]]) 
     cluster_closeness[i] <- sum(closeness.residual(dg[[i]]))
   }
   spotSummary <- data_frame(cluster = position_combine, closeness = cluster_closeness)
@@ -953,18 +749,7 @@ clusterAnalysis <- function(residueInf) {
 }
 
 
-
-#' this function is used to calculate p value for each clust
-#'
-#' @param cluster0
-#' @param sample_standard
-#' @param distance
-#' @param seq
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to calculate p value for each clust
 getHotPvalue <- function(cluster0, sample_standard, distance, seq) {
   #cluster0 <- important_hot$cluster
   #input
@@ -974,20 +759,20 @@ getHotPvalue <- function(cluster0, sample_standard, distance, seq) {
   # seq   a vector contains the coordinate information of each amino acid
   #output
   # a vector contains the calculated pvalue for each cluster
-
-
+  
+  
   # obtain the detaile postion for each cluster
   cluster1 <- str_split(cluster0, ";")
   str_replace_all("X@@75", "[:alpha:]@@", "")
   for (i in seq_along(cluster1)) {
     cluster1[[i]] <- str_replace_all(cluster1[[i]], "[:alpha:]@@", "")
   }
-
+  
   for (i in seq_along(cluster1)) {
     cluster1[[i]] <- unique(as.numeric(cluster1[[i]]))
   }
-
-
+  
+  
   # calculate the p_value
   pvalue <- vector()
   for (i in seq_along(cluster1)) {
@@ -1001,21 +786,14 @@ getHotPvalue <- function(cluster0, sample_standard, distance, seq) {
       pvalue[i] <- 1
     }
   }
-
+  
   return(pvalue)
 }
 
 
 
-#' this function is used to remove the wrong residues obtained by the stop coden
-#' if it is stop coden, then the residue could be *, thus the next step will stop
-#'
-#' @param residue_pair00
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#this function is used to remove the wrong residues obtained by the stop coden
+#if it is stop coden, then the residue could be *, thus the next step will stop
 removeStopCoden <- function(residue_pair00) {
   #input
   #residue_pair00, a dataframe contains the information of sigificant pairs
@@ -1033,19 +811,11 @@ removeStopCoden <- function(residue_pair00) {
 }
 
 
-#' newly added function, will integrate the main function
-#' this function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
-#' example
-#' strain_type <- "all_strain"
-#' strain_select1 <- chooseStrain(type = strain_type)
-#'
-#' @param type
-#' @param strain0
-#'
-#' @return
-#' @export
-#'
-#' @examples
+# newly added function, will integrate the main function
+# this function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
+# example
+# strain_type <- "all_strain"
+# strain_select1 <- chooseStrain(type = strain_type)
 chooseStrain <- function(type,strain0=strain_classification){
   #input: type--strain type, like Bioethonal, Wine
   #output: strains set contained in each type
@@ -1057,5 +827,8 @@ chooseStrain <- function(type,strain0=strain_classification){
       select(., Standardized_name)
     return(strain_select)
   }
-
+  
 }
+
+
+
