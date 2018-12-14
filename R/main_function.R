@@ -1,18 +1,3 @@
-library(tidyverse)
-library(stringr)
-library(readxl)
-library(Biostrings)
-library(filesstrings) #move the files
-library(hongR)
-#source("https://bioconductor.org/biocLite.R")
-#biocLite("Biostrings")
-library(centiserve) #this package is used to calculate the closeness centrality
-library(igraph)#form the unique clust based on Floyd-Warshall shortest-paths algorithm
-library(seqinr)
-library(readr)
-
-
-
 #' this function is used to filter fasta file of genes which belong to metabolic
 #'
 #' @return
@@ -391,12 +376,12 @@ findPPosition0 <- function(alted_seq, geneName){
 #' @export
 #'
 #' @examples
-countMutationProtein0 <- function (geneName, mutated_gene_seq){
+countMutationProtein0 <- function (geneName, mutated_gene_seq, gene_annotation0){
 
   #mutated_gene_seq <- df_list
   #geneName = 'YAL012W'
   df_list <- mutated_gene_seq
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
+  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_annotation0)
   tt <- rep(0,length(gene_snp[['protein']]))
   for (i in seq(length(mutated_gene_seq))){
     if(length(gene_snp[['gene']]) != length(df_list[[i]])) {
@@ -424,13 +409,13 @@ countMutationProtein0 <- function (geneName, mutated_gene_seq){
 #' @export
 #'
 #' @examples
-countMutationProtein <- function (gene_name, mutation_annotation=mutated_gene1){
+countMutationProtein <- function (gene_name, mutation_annotation, gene_snp0){
   #this function could produce the all the results about mutated amino acids information
   #gene_name <- "YDL205C"
   mutated_gene0 <- filter(mutation_annotation, Gene2==gene_name)
-  tt <- rep(0,length(gene_snp[['protein']]))
+  tt <- rep(0,length(gene_snp0[['protein']]))
   for (i in seq(length(mutated_gene0$Gene2))){
-    tt <- tt + findPPosition(mutated_gene0$Pos[i],mutated_gene0$Alt[i],gene_name)
+    tt <- tt + findPPosition(mutated_gene0$Pos[i],mutated_gene0$Alt[i],gene_name, gene_snp0)
   }
 
   return(tt)
@@ -448,26 +433,25 @@ countMutationProtein <- function (gene_name, mutation_annotation=mutated_gene1){
 #' @export
 #'
 #' @examples
-findPPosition <- function(mutatedPosition, alted, geneName){
+findPPosition <- function(mutatedPosition, alted, geneName, gene_snp0){
   #mutatedPosition = 93192
   #alted ='A'
-  mutation_position <- which(gene_snp[['gene_coordinate']]==mutatedPosition)
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
-  gene_snp[['gene']][mutation_position] <- alted
+  mutation_position <- which(gene_snp0[['gene_coordinate']]==mutatedPosition)
+  gene_snp0[['gene']][mutation_position] <- alted
 
   #translation
   library(seqinr)
-  realcds <- str_to_lower(paste(gene_snp[['gene']],collapse = ""))
+  realcds <- str_to_lower(paste(gene_snp0[['gene']],collapse = ""))
   toycds <- s2c(realcds)
-  gene_snp[['protein_mutated']] <- translate(seq = toycds)
+  gene_snp0[['protein_mutated']] <- translate(seq = toycds)
 
   #find the relative postion of mutated amino acids
-  aa_position <- which(gene_snp[['protein']] != gene_snp[['protein_mutated']] )
+  aa_position <- which(gene_snp0[['protein']] != gene_snp0[['protein_mutated']] )
 
   #calculate the mutation number in the mutated postion (for specific strain -x)
-  gene_snp[['mutation_position']] <- rep(0,length(gene_snp[['protein']])) #initialize the start value for each positions
-  gene_snp[['mutation_position']][aa_position] <- 1
-  result <- unlist(gene_snp[['mutation_position']])
+  gene_snp0[['mutation_position']] <- rep(0,length(gene_snp0[['protein']])) #initialize the start value for each positions
+  gene_snp0[['mutation_position']][aa_position] <- 1
+  result <- unlist(gene_snp0[['mutation_position']])
   return(result)
 }
 

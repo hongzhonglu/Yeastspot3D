@@ -6,7 +6,7 @@
 using function to obtain the each gene's mutation information based on the processed mutation data
 ----------------vesion 2}
 \usage{
-countMutationProtein(gene_name, mutation_annotation = mutated_gene1)
+countMutationProtein(gene_name, mutation_annotation, gene_snp0)
 }
 \arguments{
 \item{mutation_annotation}{}
