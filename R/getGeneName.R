@@ -1,4 +1,4 @@
-#' function get the gene name based on the mutation position
+#' function get the gene name based on the chr name and mutation position, which can be used for the SNP annotation
 #'
 #' @param chr
 #' @param mutated_positions
