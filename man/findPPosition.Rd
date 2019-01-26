@@ -4,7 +4,7 @@
 \alias{findPPosition}
 \title{this function is used to find the postion of mutated amino acids based on genomics mutation}
 \usage{
-findPPosition(mutatedPosition, alted, geneName)
+findPPosition(mutatedPosition, alted, geneName, gene_snp0)
 }
 \arguments{
 \item{geneName}{}

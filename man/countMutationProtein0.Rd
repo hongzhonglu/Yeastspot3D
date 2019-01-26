@@ -5,7 +5,7 @@
 \title{function to obtain the mutation of amino acids residue in the 3d structure based on sequence blast anlysis
 but it can be very dangeous using this method, as the insertion or deletion could lead to many mutation in a seq}
 \usage{
-countMutationProtein0(geneName, mutated_gene_seq)
+countMutationProtein0(geneName, mutated_gene_seq, gene_annotation0)
 }
 \arguments{
 \item{mutated_gene_seq}{}
