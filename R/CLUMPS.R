@@ -1,14 +1,14 @@
 #' CLUMPS function used to run the CLUMPS pipeline
 #'
-#' @param gene0
-#' @param SNPlist0
-#' @param gene_annotation0
-#' @param pdbID0
-#' @param sstart0
-#' @param send0
+#' @param gene0 A gene systematic name
+#' @param SNPlist0 A SNP list for the strains from specific phenotype
+#' @param gene_annotation0 The gene annotation summary
+#' @param pdbID0 A pdb id which has been mapped onto the gene name (the first parameter)
+#' @param sstart0 The start residue coordinate for the resdiues in the PDB file
+#' @param send0 The end residue coordinate for the residues in the PDB file
 #'
 #' @return
-#' @export
+#' @export CLUMPS analysis result
 #'
 #' @examples
 clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdbID0, sstart0, send0) {
