@@ -500,7 +500,10 @@ getTotalWAP <- function (mutated_pos, sample0, distance){
     s1 <- all_pair[,i]
     n1 <- sample0[s1[1]]
     n2 <- sample0[s1[2]]
-    d0 <- distance[s1[1],s1[2]]
+    #as the distance matrix is symmetry, so only the value from upper triangle can be used
+    ss1 <- min(s1)
+    ss2 <- max(s1)
+    d0 <- distance[ss1,ss2] # d0 <- distance[s1[1],s1[2]]
     #calculate wap for each pair
     wap1 <- wap1 + n1*n2*exp(-d0[1]^2/2/t^2)
   }
