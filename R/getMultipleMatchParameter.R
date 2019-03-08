@@ -12,9 +12,9 @@
 #' w <- 1:6
 #' v <- c('z','a','b','a','b', 'e')
 #' testData <- c('a','b','g')
-#' getMutipleMatchParameter(w,v,testData)
+#' getMultipleMatchParameter(w,v,testData)
 #'
-getMutipleMatchParameter <- function(description, reaction, ko) {###description can be any charater of metabolite
+getMultipleMatchParameter <- function(description, reaction, ko) {###description can be any charater of metabolite
   index <- vector()
   result <- vector()
   tt <- vector()
