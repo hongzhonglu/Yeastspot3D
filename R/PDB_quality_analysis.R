@@ -1,8 +1,19 @@
-# These four parameters are
-# qmean
-# Seq_similarity
-# Seq-identity
-# Resolution
+# This script contains obtain all the parameters related each PDB file.
+# Based on the parameters obtained, the quality analysis can be conducted.
+
+
+#' homology pdb file filter function
+#'
+#' @param pdb_homo a dataframe contains paramters for each homology pdb file
+#' @param qmean0  paramter to evaluate the pdb quality defined in Swiss model database
+#' @param identity0 Seq-identity, identity between target protein sequence and the residues sequence of templated PDB files
+#' @param similarity0 Seq_similarity, similarity between target protein sequence and the residues sequence of templated PDB files
+#' @param resolution0 Resolution
+#'
+#' @return
+#' @export
+#'
+#' @examples
 pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, resolution0=3.4 ){
   colname0 <- colnames(pdb_homo)
   #check whether the four parameters as the column names
@@ -24,10 +35,18 @@ pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, r
 }
 
 
-# These four parameters are
-# pident
-# mismatch
-# Resolution
+
+#' experimental pdb file filter function
+#'
+#' @param pdb_EX a dataframe contains paramters for each experimental pdb file
+#' @param pident0 identity between target protein sequence and the residues sequence included in experimental PDB files
+#' @param mismatch0 mismatch between target protein sequence and the residues sequence included in experimental PDB files
+#' @param resolution0
+#'
+#' @return
+#' @export
+#'
+#' @examples
 pdbExFilter <- function(pdb_EX, pident0=100, mismatch0=0, resolution0=3.4 ){
   colname0 <- colnames(pdb_EX)
   #check whether the four parameters as the column names
