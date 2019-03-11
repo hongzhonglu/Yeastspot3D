@@ -7,9 +7,10 @@
 loadPackageForSNPanalysis <- function() {
   # During the analysis we need the followed package, if your computer don't have them, please install it firstly before
   # the analysis
-  if (!all(package0 %in% rownames(installed.packages()))){
-    print('Please firstly install the followed packages')
     essential_package <- c('Yeastspot3D','tidyverse','stringr','readxl','Biostrings','filesstrings','centiserve','igraph','readr')
+
+  if (!all(essential_package %in% rownames(installed.packages()))){
+    print('Please firstly install the followed packages')
     print(essential_package)} else{
       print('All essential packages have been installed')
       print('Load essential packages')
