@@ -13,7 +13,7 @@ loadPackageForSNPanalysis <- function() {
   library(readxl)
   library(Biostrings)
   library(filesstrings) # move the files
-  library(hongR)
+  # library(hongR) # have moved three common functions from hongR into Yeastspot3D, so this package was not used.
   # source("https://bioconductor.org/biocLite.R")
   # biocLite("Biostrings")
   library(centiserve) # this package is used to calculate the closeness centrality
