@@ -30,6 +30,14 @@ loadPackageForSNPanalysis <- function() {
 
 
 
+#' Check whether each package is installed
+#'
+#' @param package0
+#'
+#' @return
+#' @export
+#'
+#' @examples
 checkInstallation <- function(package0){
   if(package0 %in% rownames(installed.packages())){
     print(paste(package0,'is installed'))
