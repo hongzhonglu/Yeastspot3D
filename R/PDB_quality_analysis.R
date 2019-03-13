@@ -17,16 +17,16 @@
 pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, resolution0=3.4 ){
   colname0 <- colnames(pdb_homo)
   #check whether the four parameters as the column names
-  key_para_filter <- c('qmean','Seq_Identity','Seq_similarity','Resolution')
+  key_para_filter <- c('qmean','Seq_identity','Seq_similarity','Resolution')
   if (all(key_para_filter %in% colname0)){
     print('all four key parameters exist')
     print('Conduct the filteration for homology PDB files')
     pdb_homo$qmean <- as.numeric(pdb_homo$qmean)
-    pdb_homo$Seq_Identity <- as.numeric(pdb_homo$Seq_Identity)
+    pdb_homo$Seq_identity <- as.numeric(pdb_homo$Seq_identity)
     pdb_homo$Seq_similarity <- as.numeric(pdb_homo$Seq_similarity)
     pdb_homo$Resolution <- as.numeric(pdb_homo$Resolution)
     pdb_homo_filter <- filter(pdb_homo, pdb_homo$qmean >= qmean0 &
-                                pdb_homo$Seq_Identity >= identity0 &
+                                pdb_homo$Seq_identity >= identity0 &
                                 pdb_homo$Seq_similarity >=similarity0 &
                                 pdb_homo$Resolution <= resolution0 )
   } else{
