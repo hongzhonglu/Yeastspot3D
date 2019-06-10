@@ -1,16 +1,41 @@
-Package: Yeastspot3D
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <luho@chalmers.se>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Package: Yeastspot3D
+Title: Mutation mapping analysis with protein 3D structure for yeast
+Version: 0.3.0
+Authors@R:
+    person("Hongzhong", "Lu", , "luho@chalmers.se")
+Description: 
+    Yeastspot3D provides an easy and comprehensive framework to do the 
+    mutation mapping analysis for yeast through integrating the genome 
+    annotation, protein structure quality analysis and mutation mapping 
+    analysis together. With Yeastspot3D, the mutation enrichment 
+    analysis and mutation hotspot analysis can be done at the same time.
+    Yeastspot3D makes it easy to find the interest proteins with 
+    significant mutation enrichment within a protein 3D structure. 
+
+License: MIT + file LICENSE
+URL: https://github.com/hongzhonglu/Yeastspot3D
+BugReports: https://github.com/hongzhonglu/Yeastspot3D/issues
+Depends: 
+    R (>= 3.5.2)
+Imports:
+    dplyr (>= 1.3.0),
+    magrittr (>= 1.5),
+    purrr (>= 0.3.0),
+    readr (>= 1.3.1),
+    stringr (>= 1.3.1),
+    tidyverse (>= 1.2.1),
+    readxl (>= 1.2.0), 
+    Biostrings (>= 2.50.2),
+	centiserve (>= 1.0.0),
+	igraph (>= 1.2.2),
+	seqinr (>= 3.4-5)
+
+Suggests: 
+	testthat,
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Suggests: testthat,
-    knitr,
-    rmarkdown
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
