@@ -27,12 +27,12 @@ Imports:
     tidyverse (>= 1.2.1),
     readxl (>= 1.2.0), 
     Biostrings (>= 2.50.2),
-	centiserve (>= 1.0.0),
-	igraph (>= 1.2.2),
-	seqinr (>= 3.4-5)
+    centiserve (>= 1.0.0),
+    igraph (>= 1.2.2),
+    seqinr (>= 3.4-5)
 
 Suggests: 
-	testthat,
+    testthat,
     rmarkdown
 Encoding: UTF-8
 LazyData: true
