@@ -29,7 +29,9 @@ Imports:
     Biostrings (>= 2.50.2),
     centiserve (>= 1.0.0),
     igraph (>= 1.2.2),
-    seqinr (>= 3.4-5)
+    seqinr (>= 3.4-5),
+    filesstrings (>= 3.0.0),
+    hongR
 
 Suggests: 
     testthat,
