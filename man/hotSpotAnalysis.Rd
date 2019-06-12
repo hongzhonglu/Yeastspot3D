@@ -4,13 +4,15 @@
 \alias{hotSpotAnalysis}
 \title{This function is used to conduct the hotspot analysis}
 \usage{
-hotSpotAnalysis(gene0 = ss0, SNPlist0 = mutated_gene1,
+hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
   gene_annotation0 = gene_feature0, pdb = distance, sstart0 = p1,
   send0 = p2, qstart0 = q1, qend0 = q2, result_dir = outfile0,
-  input_dir = TRUE)
+  strain_type = NA, input_dir = TRUE)
 }
 \arguments{
 \item{gene0}{A gene systematic name}
+
+\item{pdbID}{A string}
 
 \item{SNPlist0}{A SNP list for the strains from specific phenotype}
 
@@ -27,6 +29,8 @@ hotSpotAnalysis(gene0 = ss0, SNPlist0 = mutated_gene1,
 \item{qend0}{The end residue coordinate for the residues in the PDB file}
 
 \item{result_dir}{The directory to save the hot spot analysis result}
+
+\item{strain_type}{A string to represent the source of SNP}
 
 \item{input_dir}{}
 }

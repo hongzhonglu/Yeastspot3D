@@ -1,6 +1,7 @@
 #' This function is used to conduct the hotspot analysis
 #'
 #' @param gene0 A gene systematic name
+#' @param pdbID A string
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
 #' @param gene_annotation0 The gene annotation summary
 #' @param pdb The dir store the residue distance matrix, should be a txt file seperated by ',' or the residue distance matrix
@@ -9,13 +10,16 @@
 #' @param qstart0 The start residue coordinate for the resdiues in the PDB file
 #' @param qend0 The end residue coordinate for the residues in the PDB file
 #' @param result_dir The directory to save the hot spot analysis result
+#' @param strain_type A string to represent the source of SNP
 #' @param input_dir
+#'
 #'
 #' @return
 #' @export important_hot analysis result
 #'
 #' @examples
 hotSpotAnalysis <- function (gene0 = ss0,
+                             pdbID = NA,
                              SNPlist0 = mutated_gene1,
                              gene_annotation0 = gene_feature0,
                              pdb = distance,
@@ -24,6 +28,7 @@ hotSpotAnalysis <- function (gene0 = ss0,
                              qstart0 = q1,
                              qend0 = q2,
                              result_dir = outfile0,
+                             strain_type = NA,
                              input_dir=TRUE) {
 
   # step 1
@@ -109,7 +114,7 @@ hotSpotAnalysis <- function (gene0 = ss0,
       important_hot$seq_3D_origin <- p3
       important_hot$structure <- pdbID
       important_hot$seq_3D <- r3
-      important_hot$stain_type <- strain_type
+      important_hot$strain_type <- strain_type
       outfile <- paste(result_dir, "/", pdbID, "_", gene0, ".txt", sep = "")
       # last step: get the mutate residue coordinate from protein seqence
       # coordinate mapping
