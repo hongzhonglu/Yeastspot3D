@@ -655,11 +655,11 @@ PositionResidue <- function(alted_seq, geneName) {
 #' @export
 #'
 #' @examples
-PositionResidueSNP <- function(mutatedPosition, alted, geneName) {
+PositionResidueSNP <- function(mutatedPosition, alted, geneName, gene_feature) {
   #mutatedPosition = 130975
   #alted ='A'
   #geneName = "YAL012W"
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
+  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature)
   mutation_position <- which(gene_snp[['gene_coordinate']]==mutatedPosition)
 
   gene_snp[['gene']][mutation_position] <- alted
