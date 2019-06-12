@@ -18,7 +18,7 @@ devtools::install_github("hongzhonglu/Yeastspot3D")
 
 ## Usage
 
-The detailed tutorial to use Yeastspot3D could be found in https://github.com/hongzhonglu/test_code_Yeastspot3D.
+The detailed tutorial to use Yeastspot3D could be found in https://github.com/hongzhonglu/Tutorial_for_Yeastspot3D.
 
 
 ## Contributors

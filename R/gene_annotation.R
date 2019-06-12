@@ -358,3 +358,55 @@ mergeActiveSiteInf <- function() {
   sce_site_refine0$description <- str_trim(sce_site_refine0$description, side = "both")
   return(sce_site_refine0)
 }
+
+
+
+#' This a general function used to annotate the small SNP dataset
+#'
+#' @param snp_input a dataframe contains columns of "Chr","Pos","Gene","Ref","Alt" for each SNP
+#' @param gene_feature a dataframe contains the detailed information of a gene
+#'
+#' @return
+#' @export mutated_gene0 # a dataframe contains detailed annotation information of each SNP
+#'
+#' @examples
+annotateSNP <- function(snp_input, gene_feature=gene_feature0) {
+  mutated_test <- snp_input
+  mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
+  mutated_test$Chr <- str_trim(mutated_test$Chr, side = "both")
+  mutated_test$Pos <- as.numeric(mutated_test$Pos)
+  mutated_test$Gene2 <- NA
+  # get the gene name
+  for (i in seq(length(mutated_test$Chr))){
+    print(i)
+    mutated_test$Gene2[i] <- getGeneName(mutated_test$Chr[i],mutated_test$Pos[i])
+    print(getGeneName(mutated_test$Chr[i],mutated_test$Pos[i]))
+  }
+
+  mutated_test0 <- filter(mutated_test, Gene2 != "INTERGENIC") ##filter the mutated test
+  #choose the metabolic gene
+  #if the gene is type of "complement", then the complement_sign is "TRUE"
+  #else the complement_sign is "FALSE"
+  gene_feature0$complement_sign <- str_detect(gene_feature0$cds_location,"complement")
+  index_m <- which(mutated_test0$Gene2 %in% gene_feature0$locus_tag ==TRUE)
+  mutated_gene <- mutated_test0[index_m,]
+
+  mutated_gene$Ref <- str_trim(mutated_gene$Ref, side = "both")
+  mutated_gene$Alt <- str_trim(mutated_gene$Alt, side = "both")
+
+  mutated_gene$complement_sign <- getSingleMatchParameter(gene_feature0$complement_sign,gene_feature0$locus_tag,mutated_gene$Gene2)
+  mutated_gene0 <- mutated_gene
+
+  for (i in seq(length(mutated_gene0$Chr))){
+    if(mutated_gene0$complement_sign[i]){
+      mutated_gene0$Ref[i] <- changeATCG(mutated_gene0$Ref[i])
+      mutated_gene0$Alt[i] <- changeATCG(mutated_gene0$Alt[i])
+
+    } else{
+      mutated_gene0$Ref[i] <- mutated_gene0$Ref[i]
+      mutated_gene0$Alt[i] <- mutated_gene0$Alt[i]
+    }
+  }
+
+  return(mutated_gene0)
+}

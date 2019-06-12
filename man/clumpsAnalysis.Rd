@@ -4,7 +4,8 @@
 \alias{clumpsAnalysis}
 \title{CLUMPS function used to run the CLUMPS pipeline}
 \usage{
-clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb_dir, sstart0, send0)
+clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0,
+  input_dir = TRUE)
 }
 \arguments{
 \item{gene0}{A gene systematic name}
@@ -13,11 +14,13 @@ clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb_dir, sstart0, send0)
 
 \item{gene_annotation0}{The gene annotation summary}
 
-\item{pdb_dir}{The dir store the residue distance matrix, should be a txt file seperated by ','}
+\item{pdb}{The dir store the residue distance matrix, should be a txt file seperated by ',' or it is a residue distance matrix}
 
 \item{sstart0}{The start residue coordinate for the resdiues in the PDB file}
 
 \item{send0}{The end residue coordinate for the residues in the PDB file}
+
+\item{input_dir}{}
 }
 \description{
 CLUMPS function used to run the CLUMPS pipeline

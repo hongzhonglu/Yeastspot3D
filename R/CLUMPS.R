@@ -3,15 +3,16 @@
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
 #' @param gene_annotation0 The gene annotation summary
-#' @param pdb_dir The dir store the residue distance matrix, should be a txt file seperated by ','
+#' @param pdb The dir store the residue distance matrix, should be a txt file seperated by ',' or it is a residue distance matrix
 #' @param sstart0 The start residue coordinate for the resdiues in the PDB file
 #' @param send0 The end residue coordinate for the residues in the PDB file
+#' @param input_dir
 #'
 #' @return
 #' @export p_value analysis result
 #'
 #' @examples
-clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdb_dir, sstart0, send0) {
+clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0, input_dir=TRUE) {
   # step 1
   # preprocess the SNP information
   gene_snp <- getGeneCoordinate(gene_name = gene0, genesum = gene_annotation0)
@@ -22,7 +23,12 @@ clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdb_dir, sstart0, 
 
   # step 2 input the structure information
   # input the distance of all the pired residues
-  ResidueDistance0 <- read.table(pdb_dir, sep = ",") # in the followed calculation, the matrix dosen't have the col and row names
+  if(input_dir){
+    ResidueDistance0 <- read.table(pdb, sep = ",") # in the followed calculation, the matrix dosen't have the col and row names
+  } else{
+    ResidueDistance0 <- pdb
+  }
+
   ResidueDistance0 <- as.matrix(ResidueDistance0)
   ResidueDistance <- ResidueDistance0 # [r1:r2,r1:r2]
 
