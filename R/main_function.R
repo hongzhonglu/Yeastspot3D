@@ -206,6 +206,7 @@ getGeneNameWithSNP <- function() {
 #' be careful about the file directory
 #'
 #' @param gene0
+#' @param gene_feature A dataframe contains the detailed annotation of gene from database
 #'
 #' @return
 #' @export
