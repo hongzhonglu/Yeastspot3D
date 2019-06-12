@@ -137,17 +137,17 @@ mergeGeneAnnotationFeature <- function() {
   # here we merge the gene info from gene_annotation0, sds_fna info and SGD info
   cat("input the gene annotation from sgd database")
   s288_SGD <- read_tsv(dir3)
-  gene_annotation0$cds_location <- getSingleReactionFormula(cds_fna$location, cds_fna$gene, gene_annotation0$locus_tag)
-  gene_annotation0$cds_seq <- getSingleReactionFormula(cds_fna$cds, cds_fna$gene, gene_annotation0$locus_tag)
-  gene_annotation0$cds_length <- getSingleReactionFormula(cds_fna$length_cds, cds_fna$gene, gene_annotation0$locus_tag)
+  gene_annotation0$cds_location <- getSingleMatchParameter(cds_fna$location, cds_fna$gene, gene_annotation0$locus_tag)
+  gene_annotation0$cds_seq <- getSingleMatchParameter(cds_fna$cds, cds_fna$gene, gene_annotation0$locus_tag)
+  gene_annotation0$cds_length <- getSingleMatchParameter(cds_fna$length_cds, cds_fna$gene, gene_annotation0$locus_tag)
   gene_annotation0 <- gene_annotation0[gene_annotation0$cds_location != "NA", ] # total 6008 genes coud can be translated into proteins
 
-  gene_annotation0$aa_seq <- getSingleReactionFormula(s288_SGD$protein_residue, s288_SGD$systematic_name, gene_annotation0$locus_tag)
-  gene_annotation0$aa_length <- getSingleReactionFormula(s288_SGD$protein_length, s288_SGD$systematic_name, gene_annotation0$locus_tag)
-  gene_annotation0$chromosome <- getSingleReactionFormula(s288_SGD$chromosome, s288_SGD$systematic_name, gene_annotation0$locus_tag)
-  gene_annotation0$start <- getSingleReactionFormula(s288_SGD$locations_start, s288_SGD$systematic_name, gene_annotation0$locus_tag)
-  gene_annotation0$end <- getSingleReactionFormula(s288_SGD$locations_end, s288_SGD$systematic_name, gene_annotation0$locus_tag)
-  # gene_annotation0$DNA_SGD <- getSingleReactionFormula(s288_SGD$sequence,s288_SGD$systematic_name,gene_annotation0$locus_tag) It should be note the gene sequence from SGD seems not right
+  gene_annotation0$aa_seq <- getSingleMatchParameter(s288_SGD$protein_residue, s288_SGD$systematic_name, gene_annotation0$locus_tag)
+  gene_annotation0$aa_length <- getSingleMatchParameter(s288_SGD$protein_length, s288_SGD$systematic_name, gene_annotation0$locus_tag)
+  gene_annotation0$chromosome <- getSingleMatchParameter(s288_SGD$chromosome, s288_SGD$systematic_name, gene_annotation0$locus_tag)
+  gene_annotation0$start <- getSingleMatchParameter(s288_SGD$locations_start, s288_SGD$systematic_name, gene_annotation0$locus_tag)
+  gene_annotation0$end <- getSingleMatchParameter(s288_SGD$locations_end, s288_SGD$systematic_name, gene_annotation0$locus_tag)
+  # gene_annotation0$DNA_SGD <- getSingleMatchParameter(s288_SGD$sequence,s288_SGD$systematic_name,gene_annotation0$locus_tag) It should be note the gene sequence from SGD seems not right
   gene_annotation0$start <- as.numeric(gene_annotation0$start)
   gene_annotation0$end <- as.numeric(gene_annotation0$end)
   gene_annotation0 <- gene_annotation0[gene_annotation0$chromosome != "NA", ]
@@ -338,7 +338,7 @@ mergeActiveSiteInf <- function() {
 
   # find the gene orf name
   ID_mapping <- read_excel(dir2)
-  sce_site_refine$orf <- getMultipleReactionFormula(ID_mapping$GeneName, ID_mapping$Entry, sce_site_refine$Entry)
+  sce_site_refine$orf <- getMultipleMatchParameter(ID_mapping$GeneName, ID_mapping$Entry, sce_site_refine$Entry)
   which(str_detect(sce_site_refine$orf, ";"))
 
   # refine the dataformat

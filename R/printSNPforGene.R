@@ -36,7 +36,7 @@ printSNPforGene <- function(gene0 = ss0,
   # mapping the mutate residue onto the original protein sequence
   gene_snp <- getGeneCoordinate(gene_name = ss, genesum = gene_annotation0)
   gene_snp[["pro_coordinate"]] <- 1:length(gene_snp[["protein"]])
-  gene_snp[["residue"]] <- getMultipleReactionFormula(pos_residue_df$residue, pos_residue_df$pos, gene_snp[["pro_coordinate"]])
+  gene_snp[["residue"]] <- getMultipleMatchParameter(pos_residue_df$residue, pos_residue_df$pos, gene_snp[["pro_coordinate"]])
   residue_3D <- gene_snp[["residue"]][seq_3D_origin]
 
   # analyse the mutation frequence of each residue
@@ -52,7 +52,7 @@ printSNPforGene <- function(gene0 = ss0,
   # obtain the original ref residue
   gene_snp <- getGeneCoordinate(gene_name = ss, genesum = gene_annotation0)
   # output the result
-  result$ref <- getSingleReactionFormula(gene_snp[["protein"]], gene_snp[["protein_coordinate"]], result$position)
+  result$ref <- getSingleMatchParameter(gene_snp[["protein"]], gene_snp[["protein_coordinate"]], result$position)
   result$orf <- ss
   result$pdbID <- pdbID0
   result <- select(result, orf, ref, position, alt, Freq, pdbID)
