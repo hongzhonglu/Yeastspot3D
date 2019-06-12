@@ -56,7 +56,7 @@ hotSpotAnalysis <- function (gene0 = ss0,
     # step 3 hot spot analysis
     # this main function will be divided into different parts for easy understanding
     pos_residue1 <- list()
-    for (i in seq_along(SNPlist0$strain)) {
+    for (i in seq_along(SNPlist0$Chr)) {
       pos_residue1[[i]] <- PositionResidueSNP(SNPlist0$Pos[i], SNPlist0$Alt[i], gene0, gene_feature = gene_annotation0)
     }
 
