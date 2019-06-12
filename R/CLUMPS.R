@@ -8,7 +8,7 @@
 #' @param send0 The end residue coordinate for the residues in the PDB file
 #'
 #' @return
-#' @export CLUMPS analysis result
+#' @export p_value analysis result
 #'
 #' @examples
 clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdb_dir, sstart0, send0) {
