@@ -833,7 +833,7 @@ getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
 #' @export
 #'
 #' @examples
-mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0, aa_pro, distance0) {
+mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0) {
   #input
   #aa_3d  a vector for the coordinate of PDB structure
   #residue0  a vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
@@ -845,10 +845,10 @@ mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0, aa_pro, distance0)
 
 
   #function test
-  aa_3d = seq_3D
-  residue0 = residue_3D
-  aa_pro = seq_3D_origin
-  distance0 = ResidueDistance
+  #aa_3d = seq_3D
+  #residue0 = residue_3D
+  #aa_pro = seq_3D_origin # This is not needed
+  #distance0 = ResidueDistance # This is not needed
 
   # establish the structure coordinate and all the residues
   # it should be noted that the duplicated mutation in the same position is not considered

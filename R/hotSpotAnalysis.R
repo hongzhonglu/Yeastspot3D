@@ -3,23 +3,28 @@
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
 #' @param gene_annotation0 The gene annotation summary
-#' @param pdb_dir The dir store the residue distance matrix, should be a txt file seperated by ','
-#' @param sstart0 The start residue coordinate for the resdiues in the PDB file
-#' @param send0 The end residue coordinate for the residues in the PDB file
+#' @param pdb The dir store the residue distance matrix, should be a txt file seperated by ',' or the residue distance matrix
+#' @param sstart0 The start residue coordinate for the resdiues in the original protein
+#' @param send0 The end residue coordinate for the residues in the the original protein
+#' @param qstart0 The start residue coordinate for the resdiues in the PDB file
+#' @param qend0 The end residue coordinate for the residues in the PDB file
 #' @param result_dir The directory to save the hot spot analysis result
+#' @param input_dir
 #'
 #' @return
 #' @export important_hot analysis result
 #'
 #' @examples
-
 hotSpotAnalysis <- function (gene0 = ss0,
                              SNPlist0 = mutated_gene1,
                              gene_annotation0 = gene_feature0,
-                             pdb_dir = distance_dir,
+                             pdb = distance,
                              sstart0 = p1,
                              send0 = p2,
-                             result_dir = outfile0) {
+                             qstart0 = q1,
+                             qend0 = q2,
+                             result_dir = outfile0,
+                             input_dir=TRUE) {
 
   # step 1
   # preprocess the SNP information
@@ -31,7 +36,16 @@ hotSpotAnalysis <- function (gene0 = ss0,
 
   # step 2 input the structure information
   # input the distance of all the pired residues
-  ResidueDistance0 <- read.table(pdb_dir, sep = ",") # in the followed calculation, the matrix dosen't have the col and row names
+  r3 <- paste(qstart0, qend0, sep = "-")
+
+  # the residue distance can be a directory or matrix
+  if(input_dir){
+    ResidueDistance0 <- read.table(pdb, sep = ",") # in the followed calculation, the matrix dosen't have the col and row names
+  } else{
+    ResidueDistance0 <- pdb
+  }
+
+
   ResidueDistance0 <- as.matrix(ResidueDistance0)
   ResidueDistance <- ResidueDistance0 # [r1:r2,r1:r2]
 
@@ -39,6 +53,7 @@ hotSpotAnalysis <- function (gene0 = ss0,
   # the amino acid sequence in structure is from 2:394 while  the original sequence is from 1:394
   # obtain the mutation information for the structure
   seq_3D_origin <- sstart0:send0 # seq_from_3D <- 2:394 #"YAL012W.fasta"#this is the coordinated of original protein sequence and should changed into 3D structure coordinates
+  p3 <- paste(sstart0,send0, sep = "-")
   amino_acid_3D <- gene_snp[["protein"]][seq_3D_origin]
   count_mutation_3D <- gene_snp[["pro_mutation_count"]][seq_3D_origin]
 
@@ -96,11 +111,9 @@ hotSpotAnalysis <- function (gene0 = ss0,
       important_hot$seq_3D <- r3
       important_hot$stain_type <- strain_type
       outfile <- paste(result_dir, "/", pdbID, "_", gene0, ".txt", sep = "")
-
       # last step: get the mutate residue coordinate from protein seqence
       # coordinate mapping
-      coordinate_mapping <- mappingCoordinateFrom3DtoProtein(aa_3d = seq_3D, residue0 = residue_3D, aa_pro = seq_3D_origin, distance0 = ResidueDistance)
-
+      coordinate_mapping <- mappingCoordinateFrom3DtoProtein(aa_3d = seq_3D, residue0 = residue_3D)
       important_hot$cluster <- getOriginalCoordinateProtein(coordinate0 = important_hot$cluster, coordinate_mapping0 = coordinate_mapping)
 
 
