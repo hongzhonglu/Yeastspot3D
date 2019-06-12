@@ -12,7 +12,6 @@ Description:
     analysis and mutation hotspot analysis can be done at the same time.
     Yeastspot3D makes it easy to find the interest proteins with 
     significant mutation enrichment within a protein 3D structure. 
-
 License: MIT + file LICENSE
 URL: https://github.com/hongzhonglu/Yeastspot3D
 BugReports: https://github.com/hongzhonglu/Yeastspot3D/issues
@@ -29,8 +28,9 @@ Imports:
     Biostrings (>= 2.50.2),
     centiserve (>= 1.0.0),
     igraph (>= 1.2.2),
-    seqinr (>= 3.4-5)
-
+    seqinr (>= 3.4-5),
+    filesstrings (>= 3.0.0),
+    hongR
 Suggests: 
     testthat,
     rmarkdown

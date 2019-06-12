@@ -206,12 +206,13 @@ getGeneNameWithSNP <- function() {
 #' be careful about the file directory
 #'
 #' @param gene0
+#' @param gene_feature A dataframe contains the detailed annotation of gene from database
 #'
 #' @return
 #' @export
 #'
 #' @examples
-preprocessSNP <- function(gene0) {
+preprocessSNP <- function(gene0, gene_feature) {
   # inut a gene name,
   # then the function will read all the SNP information for this gene
   # output
@@ -220,7 +221,7 @@ preprocessSNP <- function(gene0) {
   infile <- paste("data/gene_snp/", gene0, sep = "")
   mutated_test <- read.table(infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
   colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
-  mutated_test$complement_sign <- getSingleReactionFormula(gene_feature_GEM$complement_sign, gene_feature_GEM$locus_tag, mutated_test$Gene2)
+  mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
   mutated_gene0 <- mutated_test
   for (i in seq(length(mutated_gene0$Chr))) {
     if (mutated_gene0$complement_sign[i]) {
@@ -655,11 +656,11 @@ PositionResidue <- function(alted_seq, geneName) {
 #' @export
 #'
 #' @examples
-PositionResidueSNP <- function(mutatedPosition, alted, geneName) {
+PositionResidueSNP <- function(mutatedPosition, alted, geneName, gene_feature) {
   #mutatedPosition = 130975
   #alted ='A'
   #geneName = "YAL012W"
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
+  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature)
   mutation_position <- which(gene_snp[['gene_coordinate']]==mutatedPosition)
 
   gene_snp[['gene']][mutation_position] <- alted
@@ -696,7 +697,7 @@ ResidueSum <- function(pos_residue) {
   pos_residue_df <- pos_residue_df %>% separate(., pos_aa1, into = c("residue", "position"), sep = "@@")
 
   pos_residue_df0 <- data.frame(pos = unique(pos_residue_df$position), stringsAsFactors = FALSE)
-  pos_residue_df0$residue <- getMultipleReactionFormula(pos_residue_df$pos_aa, pos_residue_df$position, pos_residue_df0$pos)
+  pos_residue_df0$residue <- getMultipleMatchParameter(pos_residue_df$pos_aa, pos_residue_df$position, pos_residue_df0$pos)
   pos_residue_df0$pos <- as.numeric(pos_residue_df0$pos)
 
   return(pos_residue_df0)
@@ -881,7 +882,7 @@ getOriginalCoordinateProtein <- function(coordinate0,coordinate_mapping0){
     s0 <- coordinate1[[i]]
     print('coordinate of residue from protein structure')
     print(s0)
-    s1 <- getSingleReactionFormula(coordinate_mapping0$residue_old, coordinate_mapping0$residue,s0)
+    s1 <- getSingleMatchParameter(coordinate_mapping0$residue_old, coordinate_mapping0$residue,s0)
     print('coordinate of residue from protein sequence')
     print(s1)
     s1 <- paste0(s1,collapse = ";")

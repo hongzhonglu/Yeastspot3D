@@ -6,10 +6,10 @@
 it should be noted that if the gene belong to minus strand, changeATCG function will be used
 be careful about the file directory}
 \usage{
-preprocessSNP(gene0)
+preprocessSNP(gene0, gene_feature)
 }
 \arguments{
-\item{gene0}{}
+\item{gene_feature}{A dataframe contains the detailed annotation of gene from database}
 }
 \description{
 this function is used to proprocess all the snp for one gene belong to a sample set

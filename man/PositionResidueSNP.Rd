@@ -4,7 +4,7 @@
 \alias{PositionResidueSNP}
 \title{this function return the mutated informaiton based on SNP information: mutated position and changed amino acids}
 \usage{
-PositionResidueSNP(mutatedPosition, alted, geneName)
+PositionResidueSNP(mutatedPosition, alted, geneName, gene_feature)
 }
 \arguments{
 \item{geneName}{}

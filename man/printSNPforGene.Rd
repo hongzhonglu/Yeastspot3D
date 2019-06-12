@@ -5,7 +5,7 @@
 \title{function used to give summary of SNP for gene based on a specific strain phenotype}
 \usage{
 printSNPforGene(gene0 = ss0, SNPlist0 = mutated_gene1,
-  gene_annotation0 = gene_feature_GEM, pdbID0 = pdbID, sstart0 = p1,
+  gene_annotation0 = gene_feature0, pdbID0 = pdbID, sstart0 = p1,
   send0 = p2)
 }
 \arguments{

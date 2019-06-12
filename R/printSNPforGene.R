@@ -13,7 +13,7 @@
 #' @examples
 printSNPforGene <- function(gene0 = ss0,
                             SNPlist0 = mutated_gene1,
-                            gene_annotation0 = gene_feature_GEM,
+                            gene_annotation0 = gene_feature0,
                             pdbID0 = pdbID,
                             sstart0 = p1,
                             send0 = p2) {
@@ -28,7 +28,7 @@ printSNPforGene <- function(gene0 = ss0,
   for (j in 1:nrow(SNPlist0)) {
     cat('Process all the SNPs from SNP list to obtain the SNP belong to the input gene:')
     print(j)
-    pos_residue1[[j]] <- PositionResidueSNP(SNPlist0$Pos[j], SNPlist0$Alt[j], ss)
+    pos_residue1[[j]] <- PositionResidueSNP(SNPlist0$Pos[j], SNPlist0$Alt[j], ss, gene_feature = gene_annotation0)
   }
 
   pos_residue_df <- ResidueSum(pos_residue1)
@@ -36,7 +36,7 @@ printSNPforGene <- function(gene0 = ss0,
   # mapping the mutate residue onto the original protein sequence
   gene_snp <- getGeneCoordinate(gene_name = ss, genesum = gene_annotation0)
   gene_snp[["pro_coordinate"]] <- 1:length(gene_snp[["protein"]])
-  gene_snp[["residue"]] <- getMultipleReactionFormula(pos_residue_df$residue, pos_residue_df$pos, gene_snp[["pro_coordinate"]])
+  gene_snp[["residue"]] <- getMultipleMatchParameter(pos_residue_df$residue, pos_residue_df$pos, gene_snp[["pro_coordinate"]])
   residue_3D <- gene_snp[["residue"]][seq_3D_origin]
 
   # analyse the mutation frequence of each residue
@@ -52,7 +52,7 @@ printSNPforGene <- function(gene0 = ss0,
   # obtain the original ref residue
   gene_snp <- getGeneCoordinate(gene_name = ss, genesum = gene_annotation0)
   # output the result
-  result$ref <- getSingleReactionFormula(gene_snp[["protein"]], gene_snp[["protein_coordinate"]], result$position)
+  result$ref <- getSingleMatchParameter(gene_snp[["protein"]], gene_snp[["protein_coordinate"]], result$position)
   result$orf <- ss
   result$pdbID <- pdbID0
   result <- select(result, orf, ref, position, alt, Freq, pdbID)
