@@ -211,7 +211,7 @@ getGeneNameWithSNP <- function() {
 #' @export
 #'
 #' @examples
-preprocessSNP <- function(gene0) {
+preprocessSNP <- function(gene0, gene_feature) {
   # inut a gene name,
   # then the function will read all the SNP information for this gene
   # output
@@ -220,7 +220,7 @@ preprocessSNP <- function(gene0) {
   infile <- paste("data/gene_snp/", gene0, sep = "")
   mutated_test <- read.table(infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
   colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
-  mutated_test$complement_sign <- getSingleReactionFormula(gene_feature_GEM$complement_sign, gene_feature_GEM$locus_tag, mutated_test$Gene2)
+  mutated_test$complement_sign <- getSingleReactionFormula(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
   mutated_gene0 <- mutated_test
   for (i in seq(length(mutated_gene0$Chr))) {
     if (mutated_gene0$complement_sign[i]) {
