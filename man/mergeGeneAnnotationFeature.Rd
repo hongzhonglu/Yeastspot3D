@@ -6,12 +6,14 @@
 the result of this script is the base for all other analysis and should be run firstly
 firstly we need download gene annotation information from ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Saccharomyces_cerevisiae/reference/GCF_000146045.2_R64
 which include:
-1) GCF_000146045.2_R64_genomic.gbff
-2) GCF_000146045.2_R64_cds_from_genomic.fna
+\enumerate{
+\item GCF_000146045.2_R64_genomic.gbff
+\item GCF_000146045.2_R64_cds_from_genomic.fna
 secondly we download the gene annotation information from SGD
-3) s288_genome, which include the colnames:  [1] "DBID"               "systematic_name"    "gene_standard_name" "gene_name"
+\item s288_genome, which include the colnames:  \link{1} "DBID"               "systematic_name"    "gene_standard_name" "gene_name"
 "locations_strand"   "locations_start"    "locations_end"      "chromosome"
-"sequence"           "sequnece_length"    "protein_residue"    "protein_length"}
+"sequence"           "sequnece_length"    "protein_residue"    "protein_length"
+}}
 \usage{
 mergeGeneAnnotationFeature()
 }
@@ -20,10 +22,12 @@ this function was used to parse the genome annotation of s288c
 the result of this script is the base for all other analysis and should be run firstly
 firstly we need download gene annotation information from ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Saccharomyces_cerevisiae/reference/GCF_000146045.2_R64
 which include:
-1) GCF_000146045.2_R64_genomic.gbff
-2) GCF_000146045.2_R64_cds_from_genomic.fna
+\enumerate{
+\item GCF_000146045.2_R64_genomic.gbff
+\item GCF_000146045.2_R64_cds_from_genomic.fna
 secondly we download the gene annotation information from SGD
-3) s288_genome, which include the colnames:  [1] "DBID"               "systematic_name"    "gene_standard_name" "gene_name"
+\item s288_genome, which include the colnames:  \link{1} "DBID"               "systematic_name"    "gene_standard_name" "gene_name"
 "locations_strand"   "locations_start"    "locations_end"      "chromosome"
 "sequence"           "sequnece_length"    "protein_residue"    "protein_length"
+}
 }
