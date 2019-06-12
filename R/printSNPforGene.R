@@ -13,7 +13,7 @@
 #' @examples
 printSNPforGene <- function(gene0 = ss0,
                             SNPlist0 = mutated_gene1,
-                            gene_annotation0 = gene_feature_GEM,
+                            gene_annotation0 = gene_feature0,
                             pdbID0 = pdbID,
                             sstart0 = p1,
                             send0 = p2) {
@@ -28,7 +28,7 @@ printSNPforGene <- function(gene0 = ss0,
   for (j in 1:nrow(SNPlist0)) {
     cat('Process all the SNPs from SNP list to obtain the SNP belong to the input gene:')
     print(j)
-    pos_residue1[[j]] <- PositionResidueSNP(SNPlist0$Pos[j], SNPlist0$Alt[j], ss)
+    pos_residue1[[j]] <- PositionResidueSNP(SNPlist0$Pos[j], SNPlist0$Alt[j], ss, gene_feature = gene_annotation0)
   }
 
   pos_residue_df <- ResidueSum(pos_residue1)
