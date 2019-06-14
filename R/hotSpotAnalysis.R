@@ -1,4 +1,4 @@
-#' This function is used to conduct the hotspot analysis
+#' Mutation hotspot analysis
 #'
 #' @param gene0 A gene systematic name
 #' @param pdbID A string

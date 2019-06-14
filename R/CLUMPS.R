@@ -1,4 +1,4 @@
-#' CLUMPS function used to run the CLUMPS pipeline
+#' Mutation enrichment analysis
 #'
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype

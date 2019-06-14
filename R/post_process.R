@@ -1,8 +1,4 @@
-#-----------------------------------------------------------------
-# hotspot: merege multiple file of hotspot analysis result into one
-#-----------------------------------------------------------------
-
-#' Title
+#' Merge hotspots into one file
 #'
 #' @param infile the directory contains the hotspot analysis result
 #' @param outfile the directory contains the hotspot analysis result
@@ -33,7 +29,7 @@ mergeHotspot <- function(infile, outfile) {
 
 
 
-#' function used to give summary of SNP for gene based on a specific strain phenotype
+#' Print the mutated residues
 #'
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
