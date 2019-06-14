@@ -2,7 +2,7 @@
 % Please edit documentation in R/CLUMPS.R
 \name{clumpsAnalysis}
 \alias{clumpsAnalysis}
-\title{CLUMPS function used to run the CLUMPS pipeline}
+\title{Mutation enrichment analysis}
 \usage{
 clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0,
   input_dir = TRUE)
@@ -20,8 +20,29 @@ clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0,
 
 \item{send0}{The end residue coordinate for the residues in the PDB file}
 
-\item{input_dir}{}
+\item{input_dir}{A logical vector}
+}
+\value{
+p_value
 }
 \description{
-CLUMPS function used to run the CLUMPS pipeline
+Conduct the mutation mapping analysis based on protein 3D structures
+}
+\examples{
+# Load the gene feature gene and SNP dataset
+data('gene_feature0')
+data('snp_data')
+# Annotate the SNP
+mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
+# Load the residue distance matrix
+data('ResidueDistance_YPR184W')
+# Get the SNP list for specific gene
+mutated_gene1 <- filter(mutated_gene, Gene2 == 'YPR184W')
+result0 <- clumpsAnalysis(gene0 = 'YPR184W',
+                         SNPlist0 = mutated_gene1,
+                         gene_annotation0 = gene_feature0,
+                         pdb = ResidueDistance_YPR184W,
+                         sstart0 = 2,
+                         send0 = 1534,
+                         input_dir= FALSE)
 }

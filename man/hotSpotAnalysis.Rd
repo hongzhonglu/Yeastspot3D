@@ -2,7 +2,7 @@
 % Please edit documentation in R/hotSpotAnalysis.R
 \name{hotSpotAnalysis}
 \alias{hotSpotAnalysis}
-\title{This function is used to conduct the hotspot analysis}
+\title{Mutation hotspot analysis}
 \usage{
 hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
   gene_annotation0 = gene_feature0, pdb = distance, sstart0 = p1,
@@ -32,8 +32,31 @@ hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
 
 \item{strain_type}{A string to represent the source of SNP}
 
-\item{input_dir}{}
+\item{input_dir}{A logical vector}
+}
+\value{
+A dataframe contains the hotspot analysis result
 }
 \description{
-This function is used to conduct the hotspot analysis
+Conduct the mutation hotspot analysis based on protein 3D structures
+}
+\examples{
+# Load SNP data and residue distance matrix
+data("snp_YBR046C")
+data("ResidueDistance_YBR046C")
+# Creat file to store the result
+outfile0 <- "result/hot_spot_analysis"
+dir.create(outfile0)
+hotSpotAnalysis(
+gene0 = "YBR046C",
+ SNPlist0 = snp_YBR046C,
+ gene_annotation0 = gene_feature0,
+ pdb = ResidueDistance_YBR046C,
+ sstart0 = 5, # coordinate of original protein residues sequence
+ send0 = 333, # coordinate of original protein residues sequence
+ qstart0 = 1, # coordinate of protein residues sequence in pdb file
+ qend0 = 329, # coordinate of protein residues sequence in pdb file
+ result_dir = outfile0,
+ input_dir = FALSE
+)
 }
