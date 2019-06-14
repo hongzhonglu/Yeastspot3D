@@ -2,7 +2,7 @@
 % Please edit documentation in R/post_process.R
 \name{mergeHotspot}
 \alias{mergeHotspot}
-\title{Title}
+\title{Merge hotspots into one file}
 \usage{
 mergeHotspot(infile, outfile)
 }
@@ -12,5 +12,5 @@ mergeHotspot(infile, outfile)
 \item{outfile}{the directory contains the hotspot analysis result}
 }
 \description{
-Title
+Merge hotspots into one file
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hotSpotAnalysis.R
 \name{hotSpotAnalysis}
 \alias{hotSpotAnalysis}
-\title{This function is used to conduct the hotspot analysis}
+\title{Mutation hotspot analysis}
 \usage{
 hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
   gene_annotation0 = gene_feature0, pdb = distance, sstart0 = p1,
@@ -35,5 +35,5 @@ hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
 \item{input_dir}{}
 }
 \description{
-This function is used to conduct the hotspot analysis
+Mutation hotspot analysis
 }

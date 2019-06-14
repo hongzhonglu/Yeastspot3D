@@ -2,26 +2,26 @@
 % Please edit documentation in R/general_function.R, R/main_function.R
 \name{splitAndCombine}
 \alias{splitAndCombine}
-\title{fast estabolish the mapping relation between two element}
+\title{Fast estabolish the mapping relation between two element}
 \usage{
 splitAndCombine(gene, rxn, sep0)
 
 splitAndCombine(gene, rxn, sep0)
 }
 \arguments{
-\item{gene}{vetor}
+\item{gene}{A vetor contains elements with "&" or ","}
 
-\item{rxn}{vector}
+\item{rxn}{A vector contains unique identifier}
 
-\item{sep0}{string}
+\item{sep0}{A string, i.e, "&". ","}
 
 \item{sep0}{}
 }
 \value{
-a dataframe
+A dataframe contains the single mapping relation for the element from gene and rxn
 }
 \description{
-fast estabolish the mapping relation between two element
+Fast estabolish the mapping relation between two element
 
 this function is from hongR
 }

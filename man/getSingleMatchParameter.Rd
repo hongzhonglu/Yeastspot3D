@@ -2,22 +2,22 @@
 % Please edit documentation in R/general_function.R
 \name{getSingleMatchParameter}
 \alias{getSingleMatchParameter}
-\title{get single mapping result for one element}
+\title{Get single mapping result for one element}
 \usage{
 getSingleMatchParameter(description, reaction, ko)
 }
 \arguments{
-\item{description}{vector contains the description for each element from 'reaction'}
+\item{description}{A vector contains the description for each element from 'reaction'}
 
-\item{reaction}{vector contrains the element been mapped}
+\item{reaction}{A vector contrains the element been mapped}
 
-\item{ko}{vector contains the element need mapping}
+\item{ko}{A vector contains the element need mapping}
 }
 \value{
-one element
+A vector
 }
 \description{
-get single mapping result for one element
+Get single mapping result for one element
 }
 \examples{
 w <- 1:6

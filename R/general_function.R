@@ -1,13 +1,11 @@
-#' get multiple mapping results for one element
+#' Get multiple mapping results for one element
 #'
+#' @param description A vector contains the description for each element from 'reaction'
+#' @param reaction A vector contrains the element been mapped
+#' @param ko A vector contains the element need mapping
 #'
-#' @param description vector contains the description for each element from 'reaction'
-#' @param reaction vector contrains the element been mapped
-#' @param ko vector contains the element need mapping
-#'
-#' @return one element, which contains several mapping results seperated by ";"
+#' @return A vector, which contains several mapping results seperated by ";"
 #' @export
-#'
 #' @examples
 #' w <- 1:6
 #' v <- c('z','a','b','a','b', 'e')
@@ -30,18 +28,17 @@ getMultipleMatchParameter <- function(description, reaction, ko) {###description
   }
   return(result)
 }
-#devtools::document()
 
 
-#' get single mapping result for one element
+
+#' Get single mapping result for one element
 #'
-#' @param description vector contains the description for each element from 'reaction'
-#' @param reaction vector contrains the element been mapped
-#' @param ko vector contains the element need mapping
+#' @param description A vector contains the description for each element from 'reaction'
+#' @param reaction A vector contrains the element been mapped
+#' @param ko A vector contains the element need mapping
 #'
-#' @return one element
+#' @return A vector
 #' @export
-#'
 #' @examples
 #' w <- 1:6
 #' v <- c('z','a','b','a','b', 'e')
@@ -64,24 +61,23 @@ getSingleMatchParameter <- function(description, reaction, ko) {###description c
   }
   return(result)
 }
-#devtools::document()
 
 
-#' fast estabolish the mapping relation between two element
+
+#' Fast estabolish the mapping relation between two element
 #'
-#' @param gene vetor
-#' @param rxn vector
-#' @param sep0 string
+#' @param gene A vetor contains elements with "&" or ","
+#' @param rxn A vector contains unique identifier
+#' @param sep0 A string, i.e, "&". ","
 #'
-#' @return a dataframe
+#' @return A dataframe contains the single mapping relation for the element from gene and rxn
 #' @export
-#'
 #' @examples
 #' gene <- c('a&b','c')
 #' rxn <- c('r1','r2')
 #' splitAndCombine(gene, rxn, sep0="&")
 #'
-splitAndCombine <- function(gene, rxn,sep0) { ##one rxn has several genes, this function was used to splite the genes
+splitAndCombine <- function(gene, rxn, sep0) {
   library(stringr)
   gene <- str_split(gene, sep0)
   tt<- length(gene)
@@ -102,6 +98,3 @@ splitAndCombine <- function(gene, rxn,sep0) { ##one rxn has several genes, this 
 
   return(rxnGene)
 }
-
-
-

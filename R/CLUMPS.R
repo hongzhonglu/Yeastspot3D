@@ -1,17 +1,35 @@
 #' Mutation enrichment analysis
 #'
+#' Conduct the mutation mapping analysis based on protein 3D structures
+#'
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
 #' @param gene_annotation0 The gene annotation summary
 #' @param pdb The dir store the residue distance matrix, should be a txt file seperated by ',' or it is a residue distance matrix
 #' @param sstart0 The start residue coordinate for the resdiues in the PDB file
 #' @param send0 The end residue coordinate for the residues in the PDB file
-#' @param input_dir
+#' @param input_dir A logical vector
 #'
-#' @return
-#' @export p_value analysis result
+#' @return p_value
+#' @export
 #'
 #' @examples
+#' # Load the gene feature gene and SNP dataset
+#' data('gene_feature0')
+#' data('snp_data')
+#' # Annotate the SNP
+#' mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
+#' # Load the residue distance matrix
+#' data('ResidueDistance_YPR184W')
+#' # Get the SNP list for specific gene
+#' mutated_gene1 <- filter(mutated_gene, Gene2 == 'YPR184W')
+#' result0 <- clumpsAnalysis(gene0 = 'YPR184W',
+#'                          SNPlist0 = mutated_gene1,
+#'                          gene_annotation0 = gene_feature0,
+#'                          pdb = ResidueDistance_YPR184W,
+#'                          sstart0 = 2,
+#'                          send0 = 1534,
+#'                          input_dir= FALSE)
 clumpsAnalysis <- function(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0, input_dir=TRUE) {
   # step 1
   # preprocess the SNP information
