@@ -1,12 +1,18 @@
-#' Merge hotspots into one file
+#' Merge hotspots
 #'
-#' @param infile the directory contains the hotspot analysis result
-#' @param outfile the directory contains the hotspot analysis result
+#' Put all the hotspot into txt file
 #'
-#' @return
+#' @param infile A directory contains the hotspot analysis result
+#' @param outfile A directory contains the hotspot analysis result
+#'
+#' @return A txt file contains all hotspots
 #' @export
 #'
 #' @examples
+#' # choose the directory contains the hotspot analysis result
+#' mergeHotspot (infile = 'result/hotspot analysis'
+#'               outfile = 'result/hotspot analysis')
+#'
 mergeHotspot <- function(infile, outfile) {
 
   file_list <- list.files(infile)
@@ -31,6 +37,8 @@ mergeHotspot <- function(infile, outfile) {
 
 #' Print the mutated residues
 #'
+#' Output all the mutated residues information
+#'
 #' @param gene0 A gene systematic name
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
 #' @param gene_annotation0 The gene annotation summary
@@ -38,10 +46,22 @@ mergeHotspot <- function(infile, outfile) {
 #' @param sstart0 The start residue coordinate for the resdiues in the PDB file
 #' @param send0 The end residue coordinate for the residues in the PDB file
 #'
-#' @return
-#' @export CLUMPS analysis result
+#' @return  A dataframe contains the mutated residues information
+#' @export
 #'
 #' @examples
+#' data('gene_feature0')
+#' data('snp_data')
+#' mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
+#' data('ResidueDistance_YPR184W')
+#' mutated_gene1 <- filter(mutated_gene, Gene2 == 'YPR184W')
+#' pdbID <- '2_1534_5d06.1.A_5b2453487f4bf94bf75ead43'
+#' SNP_list <- printSNPforGene(gene0 = 'YPR184W',
+#'                             SNPlist0 = mutated_gene1,
+#'                             gene_annotation0 = gene_feature0,
+#'                             pdbID0 = pdbID,
+#'                             sstart0 = 2,
+#'                             send0 = 1534)
 printSNPforGene <- function(gene0 = ss0,
                             SNPlist0 = mutated_gene1,
                             gene_annotation0 = gene_feature0,

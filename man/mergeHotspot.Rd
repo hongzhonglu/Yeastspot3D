@@ -2,15 +2,24 @@
 % Please edit documentation in R/post_process.R
 \name{mergeHotspot}
 \alias{mergeHotspot}
-\title{Merge hotspots into one file}
+\title{Merge hotspots}
 \usage{
 mergeHotspot(infile, outfile)
 }
 \arguments{
-\item{infile}{the directory contains the hotspot analysis result}
+\item{infile}{A directory contains the hotspot analysis result}
 
-\item{outfile}{the directory contains the hotspot analysis result}
+\item{outfile}{A directory contains the hotspot analysis result}
+}
+\value{
+A txt file contains all hotspots
 }
 \description{
-Merge hotspots into one file
+Put all the hotspot into txt file
+}
+\examples{
+# choose the directory contains the hotspot analysis result
+mergeHotspot (infile = 'result/hotspot analysis'
+              outfile = 'result/hotspot analysis')
+
 }

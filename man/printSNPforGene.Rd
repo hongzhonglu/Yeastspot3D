@@ -21,6 +21,23 @@ printSNPforGene(gene0 = ss0, SNPlist0 = mutated_gene1,
 
 \item{send0}{The end residue coordinate for the residues in the PDB file}
 }
+\value{
+A dataframe contains the mutated residues information
+}
 \description{
-Print the mutated residues
+Output all the mutated residues information
+}
+\examples{
+data('gene_feature0')
+data('snp_data')
+mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
+data('ResidueDistance_YPR184W')
+mutated_gene1 <- filter(mutated_gene, Gene2 == 'YPR184W')
+pdbID <- '2_1534_5d06.1.A_5b2453487f4bf94bf75ead43'
+SNP_list <- printSNPforGene(gene0 = 'YPR184W',
+                            SNPlist0 = mutated_gene1,
+                            gene_annotation0 = gene_feature0,
+                            pdbID0 = pdbID,
+                            sstart0 = 2,
+                            send0 = 1534)
 }
