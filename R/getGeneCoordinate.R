@@ -1,12 +1,15 @@
-#' the function is used to obtain a list which contains the coordinate information of each gene
+#' Parse the gene coordinate
+#' Obtain a list which contains the coordinate information of each gene
 #'
-#' @param gene_name
-#' @param genesum
+#' @param gene_name A string represent the gene name
+#' @param genesum A dataframe contains the detailed gene annotation
 #'
-#' @return
+#' @return A list contains the coordinate of gene and its protein
 #' @export
 #'
 #' @examples
+#' data('gene_feature0')
+#' getGeneCoordinate(gene_name ='YPR184W', genesum = gene_feature0)
 getGeneCoordinate <- function(gene_name, genesum = gene_feature_GEM ){
   #genesum = gene_feature0
   #gene_name <- "YMR242C" # example

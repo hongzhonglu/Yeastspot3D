@@ -2,10 +2,17 @@
 % Please edit documentation in R/loadPackageForSNPanalysis.R
 \name{loadPackageForSNPanalysis}
 \alias{loadPackageForSNPanalysis}
-\title{This function is used to load the package used for SNP analysis}
+\title{Load essential packages}
 \usage{
 loadPackageForSNPanalysis()
 }
+\value{
+Display whether all essential packages are installed.
+}
 \description{
-This function is used to load the package used for SNP analysis
+Load the package used for SNP analysis
+}
+\examples{
+library(Yeastspot3D)
+loadPackageForSNPanalysis()
 }

@@ -2,13 +2,24 @@
 % Please edit documentation in R/getGeneCoordinate.R
 \name{getGeneCoordinate}
 \alias{getGeneCoordinate}
-\title{the function is used to obtain a list which contains the coordinate information of each gene}
+\title{Parse the gene coordinate
+Obtain a list which contains the coordinate information of each gene}
 \usage{
 getGeneCoordinate(gene_name, genesum = gene_feature_GEM)
 }
 \arguments{
-\item{genesum}{}
+\item{gene_name}{A string represent the gene name}
+
+\item{genesum}{A dataframe contains the detailed gene annotation}
+}
+\value{
+A list contains the coordinate of gene and its proteins
 }
 \description{
-the function is used to obtain a list which contains the coordinate information of each gene
+Parse the gene coordinate
+Obtain a list which contains the coordinate information of each gene
+}
+\examples{
+data('gene_feature0')
+getGeneCoordinate(gene_name ='YPR184W', genesum = gene_feature0)
 }

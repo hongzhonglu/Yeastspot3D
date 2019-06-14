@@ -1,9 +1,13 @@
-#' This function is used to load the package used for SNP analysis
+#' Load essential packages
 #'
-#' @return
+#' Load the package used for SNP analysis
+#'
+#' @return Display whether all essential packages are installed.
 #' @export
 #'
 #' @examples
+#' library(Yeastspot3D)
+#' loadPackageForSNPanalysis()
 loadPackageForSNPanalysis <- function() {
   # During the analysis we need the followed package, if your computer don't have them, please install it firstly before
   # the analysis

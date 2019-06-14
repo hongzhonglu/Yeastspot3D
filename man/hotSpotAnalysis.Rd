@@ -32,7 +32,7 @@ hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
 
 \item{strain_type}{A string to represent the source of SNP}
 
-\item{input_dir}{A Logical vector}
+\item{input_dir}{A logical vector}
 }
 \value{
 A dataframe contains the hotspot analysis result
