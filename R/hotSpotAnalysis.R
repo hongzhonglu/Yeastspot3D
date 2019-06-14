@@ -1,5 +1,7 @@
 #' Mutation hotspot analysis
 #'
+#' Conduct the mutation hotspot analysis based on protein 3D structures
+#'
 #' @param gene0 A gene systematic name
 #' @param pdbID A string
 #' @param SNPlist0 A SNP list for the strains from specific phenotype
@@ -11,13 +13,31 @@
 #' @param qend0 The end residue coordinate for the residues in the PDB file
 #' @param result_dir The directory to save the hot spot analysis result
 #' @param strain_type A string to represent the source of SNP
-#' @param input_dir
+#' @param input_dir A logical vector
 #'
 #'
-#' @return
-#' @export important_hot analysis result
+#' @return A dataframe contains the hotspot analysis result
+#' @export
 #'
 #' @examples
+#' # Load SNP data and residue distance matrix
+#' data("snp_YBR046C")
+#' data("ResidueDistance_YBR046C")
+#' # Creat file to store the result
+#' outfile0 <- "result/hot_spot_analysis"
+#' dir.create(outfile0)
+#' hotSpotAnalysis(
+#' gene0 = "YBR046C",
+#'  SNPlist0 = snp_YBR046C,
+#'  gene_annotation0 = gene_feature0,
+#'  pdb = ResidueDistance_YBR046C,
+#'  sstart0 = 5, # coordinate of original protein residues sequence
+#'  send0 = 333, # coordinate of original protein residues sequence
+#'  qstart0 = 1, # coordinate of protein residues sequence in pdb file
+#'  qend0 = 329, # coordinate of protein residues sequence in pdb file
+#'  result_dir = outfile0,
+#'  input_dir = FALSE
+#')
 hotSpotAnalysis <- function (gene0 = ss0,
                              pdbID = NA,
                              SNPlist0 = mutated_gene1,

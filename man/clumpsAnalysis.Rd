@@ -20,7 +20,7 @@ clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0,
 
 \item{send0}{The end residue coordinate for the residues in the PDB file}
 
-\item{input_dir}{}
+\item{input_dir}{A logical vector}
 }
 \value{
 p_value
