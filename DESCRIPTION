@@ -1,7 +1,7 @@
 Type: Package
 Package: Yeastspot3D
 Title: Mutation mapping analysis with protein 3D structure for yeast
-Version: 0.3.0
+Version: 0.5.0
 Authors@R:
     person("Hongzhong", "Lu", email = "luho@chalmers.se", role = c("cre"))
 Description: 
