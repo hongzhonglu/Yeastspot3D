@@ -2,13 +2,24 @@
 % Please edit documentation in R/gene_annotation.R
 \name{getGeneName}
 \alias{getGeneName}
-\title{function get the gene name based on the chr name and mutation position, which can be used for the SNP annotation}
+\title{Get gene for each SNP}
 \usage{
 getGeneName(chr, mutated_positions, gene_annotation = gene_feature0)
 }
 \arguments{
-\item{gene_annotation}{}
+\item{chr}{A string containing chromsome name}
+
+\item{mutated_positions}{A number containing the mutated position}
+
+\item{gene_annotation}{A dataframe with detailed gene annotation for sec-s288}
+}
+\value{
+A string represents gene name
 }
 \description{
-function get the gene name based on the chr name and mutation position, which can be used for the SNP annotation
+Get the gene name based on the chr name and mutation position, which can be used for the SNP annotation
+}
+\examples{
+data('gene_feature0')
+getGeneName(chr='chrI',mutated_positions=120983,  gene_annotation = gene_feature0)
 }

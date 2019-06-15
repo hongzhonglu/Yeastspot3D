@@ -2,15 +2,24 @@
 % Please edit documentation in R/gene_annotation.R
 \name{parseSingleSite}
 \alias{parseSingleSite}
-\title{Function to parse the UniProt annotation with only single site(?)}
+\title{Parse the simple site}
 \usage{
 parseSingleSite(site_dataframe, site_type0)
 }
 \arguments{
-\item{site_dataframe}{a dataframe to store the active site annotation from UniProt database}
+\item{site_dataframe}{A dataframe with the active site annotation from UniProt database}
 
-\item{site_type0}{the site type classification by UniProt database}
+\item{site_type0}{The site type classification by UniProt database}
+}
+\value{
+A dataframe with the genename and active site information
 }
 \description{
-Function to parse the UniProt annotation with only single site(?)
+Function to parse the site annotation with no ";"
+}
+\examples{
+# Load the active site annotation from UniProt database
+data('protein_active_site_sce')
+metal_site <- select(sce_site00,Entry, Metal_binding) \%>\% filter(.,!is.na(Metal_binding))
+metal_site1 <- parseSingleSite(metal_site, site_type0 = 'METAL')
 }

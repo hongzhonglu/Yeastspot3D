@@ -1,20 +1,19 @@
-#' function get the gene name based on the chr name and mutation position, which can be used for the SNP annotation
+#' Get gene for each SNP
 #'
-#' @param chr
-#' @param mutated_positions
-#' @param gene_annotation
+#' Get the gene name based on the chr name and mutation position, which can be used for the SNP annotation
 #'
-#' @return
+#' @param chr A string containing chromsome name
+#' @param mutated_positions A number containing the mutated position
+#' @param gene_annotation A dataframe with detailed gene annotation for sec-s288
+#'
+#' @return A string represents gene name
 #' @export
 #'
 #' @examples
-getGeneName <- function(chr,mutated_positions,gene_annotation = gene_feature0){
-  #input:
-  #1. chr: chromsome
-  #2. mutated_positiion
-  #3. gene_featured0: contains the gene sequence information from chromsome of sec-s288c ,like the start and end
-  #output:
-  # the gene name contained this mutation
+#' data('gene_feature0')
+#' getGeneName(chr='chrI',mutated_positions=120983,  gene_annotation = gene_feature0)
+getGeneName <- function(chr, mutated_positions, gene_annotation = gene_feature0){
+
   ss <- filter(gene_feature0,
                chromosome == chr &
                  start <= mutated_positions &
@@ -29,7 +28,9 @@ getGeneName <- function(chr,mutated_positions,gene_annotation = gene_feature0){
 
 
 
-#' this function was used to parse the genome annotation of s288c
+#' Merge genome annotation together
+#'
+#' This function was used to parse the genome annotation of s288c
 #' the result of this script is the base for all other analysis and should be run firstly
 #' firstly we need download gene annotation information from ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Saccharomyces_cerevisiae/reference/GCF_000146045.2_R64
 #' which include:
@@ -40,10 +41,13 @@ getGeneName <- function(chr,mutated_positions,gene_annotation = gene_feature0){
 #' "locations_strand"   "locations_start"    "locations_end"      "chromosome"
 #' "sequence"           "sequnece_length"    "protein_residue"    "protein_length"
 #'
-#' @return
+#' @return A dataframe with the detailed gene annotation from NCBI and SGD database
 #' @export
 #'
 #' @examples
+#' # Once the essential datasets are prepared and put it under the directory- "xxx/data/"
+#' # The function can be used as:
+#' mergeGeneAnnotationFeature()
 mergeGeneAnnotationFeature <- function() {
   dir1 <- "data/GCF_000146045.2_R64_genomic.gbff"
   dir2 <- "data/GCF_000146045.2_R64_cds_from_genomic.fna"
@@ -159,18 +163,23 @@ mergeGeneAnnotationFeature <- function() {
 
 
 
-#' this functio was used to evaluate the quality of gene annotation from cds to protein sequence
+#' Check the gene annotation quality
+#'
+#' This function was used to evaluate the quality of gene annotation from cds to protein sequence
 #' three check step
 #' check 1, ratio of gene and the translated protein----OK
 #' check 2, length of gene----OK
 #' check 3, translated protein seq is equal to that in SGD, index_need_check 570 1220 1221 1222 1223 1224 1225 1226
 #'
-#' @param gene_feature_original
+#' @param gene_feature_original A dataframe with the initial gene annotation information
 #'
-#' @return
+#' @return A dataframe with the quality check result
 #' @export
 #'
 #' @examples
+#' # Firstly run:
+#' gene_feature0 <- mergeGeneAnnotationFeature()
+#' gene_feature0 <- qualityCheckFromCDStoProtein(gene_feature0)
 qualityCheckFromCDStoProtein <- function(gene_feature_original) {
   print("start check the translation")
   translatedProtein <- checkTanslatedProtein(gene_feature_original)
@@ -192,15 +201,21 @@ qualityCheckFromCDStoProtein <- function(gene_feature_original) {
 }
 
 
-#' Function to parse the UniProt annotation with only single site(?)
+#' Parse the simple site
 #'
-#' @param site_dataframe a dataframe to store the active site annotation from UniProt database
-#' @param site_type0 the site type classification by UniProt database
+#' Function to parse the site annotation with no ";"
 #'
-#' @return
+#' @param site_dataframe A dataframe with the active site annotation from UniProt database
+#' @param site_type0 The site type classification by UniProt database
+#'
+#' @return A dataframe with the genename and active site information
 #' @export
 #'
 #' @examples
+#' # Load the active site annotation from UniProt database
+#' data('protein_active_site_sce')
+#' metal_site <- select(sce_site00,Entry, Metal_binding) %>% filter(.,!is.na(Metal_binding))
+#' metal_site1 <- parseSingleSite(metal_site, site_type0 = 'METAL')
 parseSingleSite <- function(site_dataframe, site_type0){
   site_type <- site_type0
   colnames(site_dataframe) <- c('Entry',site_type)
@@ -233,16 +248,23 @@ parseSingleSite <- function(site_dataframe, site_type0){
 
 
 
-#' Function to parse the UniProt annotation with only single or several site(?)
+#' Parse the complex site
 #'
-#' @param site_dataframe
-#' @param site_type0
-#' @param single_site
+#' Function to parse the site annotation seperated with  ";"
 #'
-#' @return
+#' @param site_dataframe A dataframe with the active site annotation from UniProt database
+#' @param site_type0 The site type classification by UniProt database
+#' @param single_site A logical vector
+#'
+#' @return A dataframe with the genename and active site information
 #' @export
 #'
 #' @examples
+#' # Load the active site annotation from UniProt database
+#' data('protein_active_site_sce')
+#' Nucleotide_binding_site <- select(sce_site00,Entry, Nucleotide_binding) %>% filter(.,!is.na(Nucleotide_binding))
+#' head(Nucleotide_binding_site)
+#' Nucleotide_binding_site1 <- parseMutipleSite(Nucleotide_binding_site, site_type0 = "NP_BIND", single_site = FALSE)
 parseMutipleSite <- function(site_dataframe, site_type0, single_site = TRUE) {
   site_type <- site_type0
   colnames(site_dataframe) <- c("Entry", site_type)
@@ -278,12 +300,17 @@ parseMutipleSite <- function(site_dataframe, site_type0, single_site = TRUE) {
 
 
 
-#' Function to summarize all the active site of potein for S. cerevisiae s288c based on
-#' protein function annotation from uniprot database
-#' @return
+#' Merget protein active site together
+#'
+#' Function to summarize all the active site of potein for S. cerevisiae s288c based on protein function annotation from uniprot database
+#'
+#' @return A dataframe with active site annotation information
 #' @export
 #'
 #' @examples
+#' # Firstly download the active site information from the uniprot and put it under directory "xx/data"
+#' mergeActiveSiteInf()
+#' # Note: this function will be further refined.
 mergeActiveSiteInf <- function() {
   # download the sce-active site information from uniprot database for S. cerevisiae s288c
   # also prepare the id mapping between the id from uniprot and the gene systematic name
@@ -361,15 +388,20 @@ mergeActiveSiteInf <- function() {
 
 
 
-#' This a general function used to annotate the small SNP dataset
+#' SNP annotation
+#' Annotate the SNP data based on the genome annotation
 #'
-#' @param snp_input a dataframe contains columns of "Chr","Pos","Gene","Ref","Alt" for each SNP
-#' @param gene_feature a dataframe contains the detailed information of a gene
+#' @param snp_input A dataframe containing columns of "Chr","Pos","Gene","Ref","Alt" for each SNP
+#' @param gene_feature A dataframe containing the detailed information of a gene
 #'
-#' @return
-#' @export mutated_gene0 # a dataframe contains detailed annotation information of each SNP
+#' @return A dataframe containing detailed annotation information of each SNP
+#' @export
 #'
 #' @examples
+#' # Fistly load the gene annotation data and SNP dataset
+#' data('gene_feature0')
+#' data('snp_data')
+#' mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
 annotateSNP <- function(snp_input, gene_feature=gene_feature0) {
   mutated_test <- snp_input
   mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
@@ -416,10 +448,10 @@ annotateSNP <- function(snp_input, gene_feature=gene_feature0) {
 #' Parse the gene coordinate
 #' Obtain a list which contains the coordinate information of each gene
 #'
-#' @param gene_name A string represent the gene name
-#' @param genesum A dataframe contains the detailed gene annotation
+#' @param gene_name A string containing the gene name
+#' @param genesum A dataframe with the detailed gene annotation
 #'
-#' @return A list contains the coordinate of gene and its protein
+#' @return A list with the coordinate of gene and its protein
 #' @export
 #'
 #' @examples
@@ -504,14 +536,3 @@ getGeneCoordinate <- function(gene_name, genesum = gene_feature_GEM ){
   return(gene_snp)
 
 }
-
-
-
-
-
-
-
-
-
-
-

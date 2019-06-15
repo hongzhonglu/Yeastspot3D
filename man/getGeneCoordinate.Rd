@@ -8,12 +8,12 @@ Obtain a list which contains the coordinate information of each gene}
 getGeneCoordinate(gene_name, genesum = gene_feature_GEM)
 }
 \arguments{
-\item{gene_name}{A string represent the gene name}
+\item{gene_name}{A string containing the gene name}
 
-\item{genesum}{A dataframe contains the detailed gene annotation}
+\item{genesum}{A dataframe with the detailed gene annotation}
 }
 \value{
-A list contains the coordinate of gene and its protein
+A list with the coordinate of gene and its protein
 }
 \description{
 Parse the gene coordinate

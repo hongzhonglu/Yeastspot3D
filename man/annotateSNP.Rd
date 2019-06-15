@@ -2,15 +2,26 @@
 % Please edit documentation in R/gene_annotation.R
 \name{annotateSNP}
 \alias{annotateSNP}
-\title{This a general function used to annotate the small SNP dataset}
+\title{SNP annotation
+Annotate the SNP data based on the genome annotation}
 \usage{
 annotateSNP(snp_input, gene_feature = gene_feature0)
 }
 \arguments{
-\item{snp_input}{a dataframe contains columns of "Chr","Pos","Gene","Ref","Alt" for each SNP}
+\item{snp_input}{A dataframe containing columns of "Chr","Pos","Gene","Ref","Alt" for each SNP}
 
-\item{gene_feature}{a dataframe contains the detailed information of a gene}
+\item{gene_feature}{A dataframe containing the detailed information of a gene}
+}
+\value{
+A dataframe containing detailed annotation information of each SNP
 }
 \description{
-This a general function used to annotate the small SNP dataset
+SNP annotation
+Annotate the SNP data based on the genome annotation
+}
+\examples{
+# Fistly load the gene annotation data and SNP dataset
+data('gene_feature0')
+data('snp_data')
+mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
 }

@@ -2,13 +2,27 @@
 % Please edit documentation in R/gene_annotation.R
 \name{parseMutipleSite}
 \alias{parseMutipleSite}
-\title{Function to parse the UniProt annotation with only single or several site(?)}
+\title{Parse the complex site}
 \usage{
 parseMutipleSite(site_dataframe, site_type0, single_site = TRUE)
 }
 \arguments{
-\item{single_site}{}
+\item{site_dataframe}{A dataframe with the active site annotation from UniProt database}
+
+\item{site_type0}{The site type classification by UniProt database}
+
+\item{single_site}{A logical vector}
+}
+\value{
+A dataframe with the genename and active site information
 }
 \description{
-Function to parse the UniProt annotation with only single or several site(?)
+Function to parse the site annotation seperated with  ";"
+}
+\examples{
+# Load the active site annotation from UniProt database
+data('protein_active_site_sce')
+Nucleotide_binding_site <- select(sce_site00,Entry, Nucleotide_binding) \%>\% filter(.,!is.na(Nucleotide_binding))
+head(Nucleotide_binding_site)
+Nucleotide_binding_site1 <- parseMutipleSite(Nucleotide_binding_site, site_type0 = "NP_BIND", single_site = FALSE)
 }
