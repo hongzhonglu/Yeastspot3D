@@ -2,12 +2,18 @@
 % Please edit documentation in R/gene_annotation.R
 \name{mergeActiveSiteInf}
 \alias{mergeActiveSiteInf}
-\title{Function to summarize all the active site of potein for S. cerevisiae s288c based on
-protein function annotation from uniprot database}
+\title{Merget protein active site together}
 \usage{
 mergeActiveSiteInf()
 }
+\value{
+A dataframe with active site annotation information
+}
 \description{
-Function to summarize all the active site of potein for S. cerevisiae s288c based on
-protein function annotation from uniprot database
+Function to summarize all the active site of potein for S. cerevisiae s288c based on protein function annotation from uniprot database
+}
+\examples{
+# Firstly download the active site information from the uniprot and put it under directory "xx/data"
+mergeActiveSiteInf()
+# Note: this function will be further refined.
 }

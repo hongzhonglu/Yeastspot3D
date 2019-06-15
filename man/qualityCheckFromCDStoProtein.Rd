@@ -2,21 +2,25 @@
 % Please edit documentation in R/gene_annotation.R
 \name{qualityCheckFromCDStoProtein}
 \alias{qualityCheckFromCDStoProtein}
-\title{this functio was used to evaluate the quality of gene annotation from cds to protein sequence
-three check step
-check 1, ratio of gene and the translated protein----OK
-check 2, length of gene----OK
-check 3, translated protein seq is equal to that in SGD, index_need_check 570 1220 1221 1222 1223 1224 1225 1226}
+\title{Check the gene annotation quality}
 \usage{
 qualityCheckFromCDStoProtein(gene_feature_original)
 }
 \arguments{
-\item{gene_feature_original}{}
+\item{gene_feature_original}{A dataframe with the initial gene annotation information}
+}
+\value{
+A dataframe with the quality check result
 }
 \description{
-this functio was used to evaluate the quality of gene annotation from cds to protein sequence
+This function was used to evaluate the quality of gene annotation from cds to protein sequence
 three check step
 check 1, ratio of gene and the translated protein----OK
 check 2, length of gene----OK
 check 3, translated protein seq is equal to that in SGD, index_need_check 570 1220 1221 1222 1223 1224 1225 1226
+}
+\examples{
+# Firstly run:
+gene_feature0 <- mergeGeneAnnotationFeature()
+gene_feature0 <- qualityCheckFromCDStoProtein(gene_feature0)
 }

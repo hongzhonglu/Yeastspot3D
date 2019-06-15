@@ -2,23 +2,15 @@
 % Please edit documentation in R/gene_annotation.R
 \name{mergeGeneAnnotationFeature}
 \alias{mergeGeneAnnotationFeature}
-\title{this function was used to parse the genome annotation of s288c
-the result of this script is the base for all other analysis and should be run firstly
-firstly we need download gene annotation information from ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Saccharomyces_cerevisiae/reference/GCF_000146045.2_R64
-which include:
-\enumerate{
-\item GCF_000146045.2_R64_genomic.gbff
-\item GCF_000146045.2_R64_cds_from_genomic.fna
-secondly we download the gene annotation information from SGD
-\item s288_genome, which include the colnames:  \link{1} "DBID"               "systematic_name"    "gene_standard_name" "gene_name"
-"locations_strand"   "locations_start"    "locations_end"      "chromosome"
-"sequence"           "sequnece_length"    "protein_residue"    "protein_length"
-}}
+\title{Merge genome annotation together}
 \usage{
 mergeGeneAnnotationFeature()
 }
+\value{
+A dataframe with the detailed gene annotation from NCBI and SGD database
+}
 \description{
-this function was used to parse the genome annotation of s288c
+This function was used to parse the genome annotation of s288c
 the result of this script is the base for all other analysis and should be run firstly
 firstly we need download gene annotation information from ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Saccharomyces_cerevisiae/reference/GCF_000146045.2_R64
 which include:
@@ -30,4 +22,9 @@ secondly we download the gene annotation information from SGD
 "locations_strand"   "locations_start"    "locations_end"      "chromosome"
 "sequence"           "sequnece_length"    "protein_residue"    "protein_length"
 }
+}
+\examples{
+# Once the essential datasets are prepared and put it under the directory- "xxx/data/"
+# The function can be used as:
+mergeGeneAnnotationFeature()
 }
