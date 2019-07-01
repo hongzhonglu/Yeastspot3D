@@ -2,22 +2,29 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdbHomoFilter}
 \alias{pdbHomoFilter}
-\title{homology pdb file filter function}
+\title{Modeled PDB files filtration}
 \usage{
 pdbHomoFilter(pdb_homo, qmean0 = -4, identity0 = 25,
   similarity0 = 0.31, resolution0 = 3.4)
 }
 \arguments{
-\item{pdb_homo}{a dataframe contains paramters for each homology pdb file}
+\item{pdb_homo}{A dataframe contains paramters for each homology pdb file}
 
-\item{qmean0}{paramter to evaluate the pdb quality defined in Swiss model database}
+\item{qmean0}{A paramter to evaluate the pdb quality defined in Swiss model database}
 
 \item{identity0}{Seq-identity, identity between target protein sequence and the residues sequence of templated PDB files}
 
 \item{similarity0}{Seq_similarity, similarity between target protein sequence and the residues sequence of templated PDB files}
 
-\item{resolution0}{Resolution}
+\item{resolution0}{Resolution of the template pdb file}
+}
+\value{
+A dataframe contain the modeled PDB files of high quality
 }
 \description{
-homology pdb file filter function
+Remove modeled PDB file of low quality
+}
+\examples{
+s1 = data.frame(qmean=c(-6,1,2),Seq_identity=c(10,30,40),Seq_similarity=c(0.15,20,45), Resolution=c(6,2,3), stringsAsFactors = FALSE)
+pdbHomoFilter(pdb_homo=s1)
 }

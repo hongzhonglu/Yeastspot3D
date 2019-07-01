@@ -3,17 +3,18 @@
 # Based on the parameters obtained, the quality analysis can be conducted.
 
 
-#' This funcion is used to obtain the resolution for the experimetal pdb files
-#' it should be noted, different from experimental PDB files, the resolution of homology pdb files
-#' represents the resolution of related templated PDB files
+#' Obtain the resolution for one experimetal PDB file
 #'
+#' Get the resolution of an experimental PDB file
 #'
-#' @param pdbdir directory of a pdb file
+#' @param pdbdir Directory of a pdb file
 #'
-#' @return
-#' @export resolution the resolution for the pdb file
+#' @return Resolution for the pdb file
+#' @export
 #'
 #' @examples
+#' pdbdir0 <- "xx/data/6cp6.pdb"
+#' pdb.ResolutionEX(pdbdir=pdbdir0)
 pdb.ResolutionEX <- function(pdbdir) {
   # input a pdb file
   # output the resolution for the pdb file
@@ -31,16 +32,19 @@ pdb.ResolutionEX <- function(pdbdir) {
 }
 
 
-#' Function to parse the pdb web https://www.rcsb.org/ to obtain the resolution for each pdb file
+#' Obtain the resolution through parsing the pdb web
+#'
+#' Parse the pdb web https://www.rcsb.org/ to obtain the resolution for each pdb file
 #' Please firstly library(rvest) when using this function
 #'
 #'
-#' @param pdb0 a pdb id
+#' @param pdb0 A pdb id
 #'
-#' @return
-#' @export resolution resolution of a pdb file
+#' @return Resolution of a pdb file
+#' @export
 #'
 #' @examples
+#' pdb.ResolutionAll(pdb0=6cp6)
 pdb.ResolutionAll <- function(pdb0) {
   url0 <- "https://www.rcsb.org/structure/"
   url <- paste(url0, pdb0, sep = "")
@@ -56,18 +60,21 @@ pdb.ResolutionAll <- function(pdb0) {
 }
 
 
-#' This function is used to extract the residue sequence from both experimental and homology pdb files
+#' Get PDB residue sequence
+#'
+#' Extract the residue sequence from both experimental and homology pdb files
 #' Please library(bio3d) firstly when using this function
 #'
 #'
+#' @param pdbdir Directory of a pdb file
+#' @param pdbid Name of the pdb file, like '6cp6.pdb'
 #'
-#' @param pdbdir directory of a pdb file
-#' @param pdbid name of the pdb file, like '6cp6.pdb'
-#'
-#' @return
+#' @return A list contains the residues sequence of each chain in a PDB file
 #' @export
 #'
 #' @examples
+#' pdbdir0 <-  "xx/data/6cp6.pdb"
+#' pdb.Sequence(pdbdir=pdbdir0, pdbid='6cp6.pdb')
 pdb.Sequence <- function(pdbdir, pdbid) {
   pdb <- read.pdb(pdbdir)
   atom1 <- pdb$atom
@@ -105,18 +112,22 @@ pdb.Sequence <- function(pdbdir, pdbid) {
 
 
 
-#' homology pdb file filter function
+#' Modeled PDB files filtration
 #'
-#' @param pdb_homo a dataframe contains paramters for each homology pdb file
-#' @param qmean0  paramter to evaluate the pdb quality defined in Swiss model database
+#' Remove modeled PDB file of low quality
+#'
+#' @param pdb_homo A dataframe contains paramters for each homology pdb file
+#' @param qmean0  A paramter to evaluate the pdb quality defined in Swiss model database
 #' @param identity0 Seq-identity, identity between target protein sequence and the residues sequence of templated PDB files
 #' @param similarity0 Seq_similarity, similarity between target protein sequence and the residues sequence of templated PDB files
-#' @param resolution0 Resolution
+#' @param resolution0 Resolution of the template pdb file
 #'
-#' @return
+#' @return A dataframe contain the modeled PDB files of high quality
 #' @export
 #'
 #' @examples
+#' s1 = data.frame(qmean=c(-6,1,2),Seq_identity=c(10,30,40),Seq_similarity=c(0.15,20,45), Resolution=c(6,2,3), stringsAsFactors = FALSE)
+#' pdbHomoFilter(pdb_homo=s1)
 pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, resolution0=3.4 ){
   colname0 <- colnames(pdb_homo)
   #check whether the four parameters as the column names
@@ -139,17 +150,21 @@ pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, r
 
 
 
-#' experimental pdb file filter function
+#'  Experimental PDB files filtration
 #'
-#' @param pdb_EX a dataframe contains paramters for each experimental pdb file
-#' @param pident0 identity between target protein sequence and the residues sequence included in experimental PDB files
-#' @param mismatch0 mismatch between target protein sequence and the residues sequence included in experimental PDB files
-#' @param resolution0
+#'  Remove experimental PDB files of low quality
 #'
-#' @return
+#' @param pdb_EX A dataframe contains paramters for each experimental pdb file
+#' @param pident0 Identity between target protein sequence and the residues sequence included in experimental PDB files
+#' @param mismatch0 Mismatch between target protein sequence and the residues sequence included in experimental PDB files
+#' @param resolution0 Resolution of PBB file
+#'
+#' @return A dataframe contain the experimental PDB files of high quality
 #' @export
 #'
 #' @examples
+#' s1 = data.frame(pident=c(99,98,100),mismatch=c(2,3,0), Resolution=c(6,2,3), stringsAsFactors = FALSE)
+#' pdbExFilter(pdb_EX=s1)
 pdbExFilter <- function(pdb_EX, pident0=100, mismatch0=0, resolution0=3.4 ){
   colname0 <- colnames(pdb_EX)
   #check whether the four parameters as the column names
@@ -171,20 +186,22 @@ pdbExFilter <- function(pdb_EX, pident0=100, mismatch0=0, resolution0=3.4 ){
 
 
 
-# This script contains obtain all the parameters related each PDB file.
-# Based on the parameters obtained, the quality analysis can be conducted.
-
-
-# this code is used to calculate the distance between each two alpha carbons
-#' Title
+#' Calculate the distance between each two alpha carbons
 #'
-#' @param pdbdir dir for a pdb file
-#' @param chainID chainID for a chain
 #'
-#' @return
-#' @export k a matrix
+#' @param pdbdir Dir for a pdb file
+#' @param chainID ChainID for a chain
+#'
+#' @return A matrix contains the distance between each two alpha carbons
+#' @export
 #'
 #' @examples
+#' library(bio3d)
+#' library(seqinr)
+#' infile <- "xx/data/"
+#' pdbid <- '6cp6.pdb'
+#' pdbdir <- paste(infile, pdbid, sep = "")
+#' pdb.ResidueDistance(pdbdir, chainID = 'K')
 pdb.ResidueDistance <- function (pdbdir,chainID) {
 
 
@@ -209,12 +226,3 @@ pdb.ResidueDistance <- function (pdbdir,chainID) {
 
   return(k)
 }
-
-# example
-# library(bio3d)
-# library(seqinr)
-# infile <- "data/"
-# pdbid <- '6cp6.pdb'
-# pdbdir <- paste(infile, pdbid, sep = "")
-# pdb.ResidueDistance(pdbdir, chainID = 'K')
-

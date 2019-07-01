@@ -2,17 +2,20 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdb.ResolutionEX}
 \alias{pdb.ResolutionEX}
-\title{This funcion is used to obtain the resolution for the experimetal pdb files
-it should be noted, different from experimental PDB files, the resolution of homology pdb files
-represents the resolution of related templated PDB files}
+\title{Obtain the resolution for one experimetal PDB file}
 \usage{
 pdb.ResolutionEX(pdbdir)
 }
 \arguments{
-\item{pdbdir}{directory of a pdb file}
+\item{pdbdir}{Directory of a pdb file}
+}
+\value{
+Resolution for the pdb file
 }
 \description{
-This funcion is used to obtain the resolution for the experimetal pdb files
-it should be noted, different from experimental PDB files, the resolution of homology pdb files
-represents the resolution of related templated PDB files
+Get the resolution of an experimental PDB file
+}
+\examples{
+pdbdir0 <- "xx/data/6cp6.pdb"
+pdb.ResolutionEX(pdbdir=pdbdir0)
 }

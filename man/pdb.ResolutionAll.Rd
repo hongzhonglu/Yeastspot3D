@@ -2,15 +2,20 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdb.ResolutionAll}
 \alias{pdb.ResolutionAll}
-\title{Function to parse the pdb web https://www.rcsb.org/ to obtain the resolution for each pdb file
-Please firstly library(rvest) when using this function}
+\title{Obtain the resolution through parsing the pdb web}
 \usage{
 pdb.ResolutionAll(pdb0)
 }
 \arguments{
-\item{pdb0}{a pdb id}
+\item{pdb0}{A pdb id}
+}
+\value{
+Resolution of a pdb file
 }
 \description{
-Function to parse the pdb web https://www.rcsb.org/ to obtain the resolution for each pdb file
+Parse the pdb web https://www.rcsb.org/ to obtain the resolution for each pdb file
 Please firstly library(rvest) when using this function
+}
+\examples{
+pdb.ResolutionAll(pdb0=6cp6)
 }
