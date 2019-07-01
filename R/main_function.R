@@ -1,108 +1,5 @@
-#' this function is used to filter fasta file of genes which belong to metabolic
+#' Nucleotide conversion for the gene from minus strand
 #'
-#' @return
-#' @export
-#'
-#' @examples
-filterMetabolicGene <- function() {
-  geneName0 <- list.files("1011_project")
-  geneMetabolic <- paste(str_trim(gene_feature_GEM$locus_tag, side = "both"), ".fasta", sep = "")
-  geneMetabolic0 <- intersect(geneName0, geneMetabolic)
-  dir.create("target_gene")
-
-  for (i in seq_along(geneMetabolic0)) {
-    geneX <- geneMetabolic0[i]
-    file0 <- paste("1011_project/", geneX, sep = "")
-    file.copy(file0, "target_gene")
-  }
-}
-
-
-
-#' this function is used to just preprocess the fasta file without filteration, used for the early version
-#'
-#' @param gene_test
-#'
-#' @return
-#' @export
-#'
-#' @examples
-processFasta <- function(gene_test) {
-  # read each fasta file and change it into a dataframe
-  #gene_test <- "YIL160C.fasta"
-  gene_name_test <- str_replace_all(gene_test, ".fasta", "")
-  fastaFile <- readDNAStringSet(paste("target_gene/", gene_test, sep = ""))
-  # obtain the strain name information and sequence information
-  seq_name <- names(fastaFile)
-  sequence <- paste(fastaFile)
-
-  # establish a dataframe contains the strain name and sequnece information
-  df <- data.frame(seq_name, sequence, stringsAsFactors = FALSE)
-  df_list <- list()
-  for (i in seq(length(df$sequence))) {
-    df_list[i] <- str_split(df$sequence[i], "")
-  }
-
-  return(df_list)
-}
-
-
-
-
-#' this function is used to choose the gene based on strain phenotype information
-#'
-#' @param gene_test
-#' @param strain_select
-#'
-#' @return
-#' @export
-#'
-#' @examples
-filterMutationStrainType <- function(gene_test, strain_select) {
-  # read each fasta file and change it into a dataframe
-  # then the filter can be used for each dataframe to obtain the strains we need
-  # gene name
-  # exampel:gene_test <- "YAL012W.fasta"
-  gene_name_test <- str_replace_all(gene_test, ".fasta", "")
-  fastaFile <- readDNAStringSet(paste("target_gene/", gene_test, sep = ""))
-  # obtain the strain name information and sequence information
-  seq_name <- names(fastaFile)
-  sequence <- paste(fastaFile)
-
-  # establish a dataframe contains the strain name and sequnece information
-  df <- data.frame(seq_name, sequence, stringsAsFactors = FALSE)
-  strain_select['index_strain'] <- paste(strain_select$Standardized_name, "_", gene_name_test, "_", sep = "")
-
-
-  for (j in seq_along(df$seq_name)) {
-    exist_sign <- vector()
-    for (i in seq_along(strain_select$index_strain)) {
-      exist_sign[i] <- str_detect(df$seq_name[j], strain_select$index_strain[i])
-    }
-
-    if (any(exist_sign) == TRUE) {
-      df$choosed[j] <- "YES"
-    } else {
-      df$choosed[j] <- "NO"
-    }
-  }
-
-  df_refine <- filter(df, choosed == "YES")
-
-
-  df_list <- list()
-  for (i in seq(length(df_refine$sequence))) {
-    df_list[i] <- str_split(df_refine$sequence[i], "")
-  }
-
-  dir.create("target_gene_processed")
-  filename0 <- paste("target_gene_processed/",gene_name_test, ".RData", sep = "")
-  save(df_list, file = filename0)
-  return(df_list)
-}
-
-
-
 #' changeATCG should be used to firstly,if the cds from the minus strand
 #' get the mutation information on the minus strand based on that from the positive strand
 #' The followed exlain that why we need changeATCG for gene from minus strand
@@ -115,12 +12,16 @@ filterMutationStrainType <- function(gene_test, strain_select) {
 #' the TSS is 10800 A. If the genes is in the - strand, then 10800-11200 (always for + strand) corresponds
 #' to the 3'-5' direction of the gene located in the complementary strand, hence the TSS is 11200 G (complementar to C).
 #'
-#' @param ss
+#' @param ss A kind of nucleotide
 #'
-#' @return
+#' @return A string of complementary nucleotide
 #' @export
 #'
 #' @examples
+#' changeATCG(ss="A")
+#' changeATCG(ss="C")
+#' changeATCG(ss="T")
+#' changeATCG(ss="G")
 changeATCG <- function (ss){
   # this function was used to get the mutation information from the minus strand based on the mutation information
   # on the positive strand
@@ -139,23 +40,21 @@ changeATCG <- function (ss){
 
 
 
-#' this function is used to check whether the translated protein is equal to the protein sequence
+#' Protein sequence quality check
+#'
+#' Check whether the translated protein from CDS is equal to the protein sequence
 #' from the sgd database, if they are equal, the original cds sequence and protein sequence is consistent in
 #' our program
 #'
-#' @param gene_seq_inf
-#'
-#' @return
+#' @param gene_seq_inf   A  gene feature dataframe, each row contains the gene annotation information, like the coordinates, the cds sequence
+#' @return A list contains the gene with right translated protein and the gene with wrong translated protein
 #' @export
 #'
 #' @examples
+#' data('gene_feature0')
+#' checkTanslatedProtein(gene_feature0)
 checkTanslatedProtein <- function(gene_seq_inf) {
-  #input
-  #a gene feature dataframe, each row contains the gene annotation information, like the coordinates, the cds sequence
-  #output
-  #a list contains the gene with right translated protein and the gene with wrong translated protein
-  #example
-  #checkTanslatedProtein(gene_feature0)
+
   checkResult <- list()
   for (i in 1:nrow(gene_seq_inf)) {
     print(i)
@@ -171,19 +70,52 @@ checkTanslatedProtein <- function(gene_seq_inf) {
   }
   gene_feature_need_check <- filter(gene_seq_inf, check2 == FALSE)
   checkResult[["right_feature"]] <- filter(gene_seq_inf, check2 == TRUE) # store the right information
-  checkResult[["wrong_feature"]] <- filter(gene_seq_inf, check2 == FALSE) # store the right information
+  checkResult[["wrong_feature"]] <- filter(gene_seq_inf, check2 == FALSE) # store the wrong information
   return(checkResult)
 }
 
 
 
-#' this function is used to obtain the metabolic gene list which have SNP, in total there are 36 metabolic genes which
-#' don't have the mutation
+#' Choose strains which belong to the same group
 #'
-#' @return
+#' This function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
+#'
+#' @param type A string representing the strain group name
+#' @param strain0 A dataframe contain all 1011 yeast strains' classification information
+#'
+#' @return A vector containing strain name
 #' @export
 #'
 #' @examples
+#' strain_type <- "all_strain"
+#' strain_select1 <- chooseStrain(type = strain_type)
+chooseStrain <- function(type, strain0=strain_classification){
+  #input: type--strain type, like Bioethonal, Wine
+  #output: strains set contained in each type
+  colnames(strain0) <- c('Standardized_name','Clades')
+  if(type=="all_strain"){
+    return(strain0)
+  } else{
+    strain_select <- filter(strain0, str_detect(strain0$Clades, type)) %>%
+      select(., Standardized_name)
+    return(strain_select)
+  }
+
+}
+
+
+#' List genes with SNPs
+#'
+#' Obtain the gene list which have SNP, in total there are 36 metabolic genes which
+#' don't have the mutation
+#'
+#' @return A vector contain the gene name
+#' @export
+#'
+#' @examples
+#' # Firstly, open one R project
+#' # Then put the SNP file in the directory of "xx/data"
+#' getGeneNameWithSNP()
 getGeneNameWithSNP <- function() {
   #input
   #the dir of  file 'gene_snp'
@@ -201,17 +133,22 @@ getGeneNameWithSNP <- function() {
 }
 
 
-#' this function is used to proprocess all the snp for one gene belong to a sample set
+
+#' Prepare SNPs list for one gene
+#'
+#' Proprocess all the snp for one gene belong to a sample set
 #' it should be noted that if the gene belong to minus strand, changeATCG function will be used
 #' be careful about the file directory
 #'
-#' @param gene0
+#' @param gene0 A string representing the gene systematic name
 #' @param gene_feature A dataframe contains the detailed annotation of gene from database
 #'
-#' @return
+#' @return  A dataframe contains each SNP information which including: chrosome, geneName, ref, alf and completment sign
 #' @export
 #'
 #' @examples
+#' data('gene_feature0')
+#' preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0)
 preprocessSNP <- function(gene0, gene_feature) {
   # inut a gene name,
   # then the function will read all the SNP information for this gene
@@ -238,14 +175,17 @@ preprocessSNP <- function(gene0, gene_feature) {
 
 
 
-#' this function can produce the amino acid seq based on cds sequence
+#' Translate CDS into Protein
 #'
-#' @param cds0
+#' Produce the amino acid seq based on cds sequence
 #'
-#' @return
+#' @param cds0 A string containing cds sequence
+#'
+#' @return A string containing the protein sequence
 #' @export
 #'
 #' @examples
+#' getProteinFromCDS(cds0="ATGGAAATGA")
 getProteinFromCDS <- function (cds0){
   #input
   #cds0, ATGGAAATGA ---cds seq
@@ -259,14 +199,18 @@ getProteinFromCDS <- function (cds0){
 
 
 
-#' function to get the coordinate information of domain occured in each gene
+#' Mapping domain coordinate onto the protein 3D structure
 #'
-#' @param dataframe0
+#' With the protein domain annotation, this function get the relative coordinates of domain within a protein 3D strucutre.
 #'
-#' @return
+#' @param dataframe0 A dataframe containing the coordinate mapping information between a PDB file and a protein
+#'
+#' @return A dataframe containing the coordinate mapping between a pdb file and a protein domain
 #' @export
 #'
 #' @examples
+#' data('pdb_inf_test')
+#' getDomainCoordinate(dataframe0=pdb_inf_test)
 getDomainCoordinate <- function(dataframe0) {
   # input
   # a dataframe contains the pdb information for each gene, the first column named 'locus' should
@@ -333,75 +277,10 @@ getDomainCoordinate <- function(dataframe0) {
 
 
 
-#' the followed two function  were used to estimate the mutation information based on input DNA fasta file
-#' ---------------version 1
-#' @param alted_seq
-#' @param geneName
-#'
-#' @return
-#' @export
-#'
-#' @examples
-findPPosition0 <- function(alted_seq, geneName){
-  #this function is used to find the postion of mutated amino acids based on genomics mutation
-  #alted_seq <- df_list[[1]]
-  #geneName <- 'YAL012W'
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
-  gene_snp[['gene']] <- alted_seq
-
-  #translation
-  #using package seqinr
-  realcds <- str_to_lower(paste(gene_snp[['gene']],collapse = ""))
-  toycds <- s2c(realcds)
-  gene_snp[['protein_mutated']] <- translate(seq = toycds)
-
-  #find the relative postion of mutated amino acids
-  aa_position <- which(gene_snp[['protein']] != gene_snp[['protein_mutated']] )
-
-  #calculate the mutation number in the mutated postion (for specific strain -x)
-  gene_snp[['mutation_position']] <- rep(0,length(gene_snp[['protein']])) #initialize the start value for each positions
-  gene_snp[['mutation_position']][aa_position] <- 1
-  result <- unlist(gene_snp[['mutation_position']])
-  return(result)
-}
-
-
-
-#' function to obtain the mutation of amino acids residue in the 3d structure based on sequence blast anlysis
-#' but it can be very dangeous using this method, as the insertion or deletion could lead to many mutation in a seq
-#'
-#' @param geneName
-#' @param mutated_gene_seq
-#'
-#' @return
-#' @export
-#'
-#' @examples
-countMutationProtein0 <- function (geneName, mutated_gene_seq, gene_annotation0){
-
-  #mutated_gene_seq <- df_list
-  #geneName = 'YAL012W'
-  df_list <- mutated_gene_seq
-  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_annotation0)
-  tt <- rep(0,length(gene_snp[['protein']]))
-  for (i in seq(length(mutated_gene_seq))){
-    if(length(gene_snp[['gene']]) != length(df_list[[i]])) {
-      tt <- tt + rep(0,length(gene_snp[['protein']]))
-    }
-    ##to avoide the insertion or deletion in the seq
-    else{
-      tt <- tt + findPPosition0(df_list[[i]],geneName)
-    }
-  }
-
-  return(tt)
-}
-
-
 
 #' the followed two function  were used to estimate the mutation information based on single SNP information
 #' using function to obtain the each gene's mutation information based on the processed mutation data
-#' ----------------vesion 2
+#' vesion 2
 #'
 #' @param gene_name
 #' @param mutation_annotation
@@ -425,7 +304,7 @@ countMutationProtein <- function (gene_name, mutation_annotation, gene_snp0){
 
 
 #' this function is used to find the postion of mutated amino acids based on genomics mutation
-#'
+#' version2
 #' @param mutatedPosition
 #' @param alted
 #' @param geneName
@@ -611,6 +490,9 @@ getPvalue <- function(wap_initial, wap_sampling) {
 
 
 
+
+
+
 #' part 2 function related to hot spot analysis
 #'
 #' this function return the mutated informaiton based on genomics fasta information
@@ -701,39 +583,6 @@ ResidueSum <- function(pos_residue) {
   pos_residue_df0$pos <- as.numeric(pos_residue_df0$pos)
 
   return(pos_residue_df0)
-}
-
-
-#' this function is from hongR
-#'
-#' @param gene
-#' @param rxn
-#' @param sep0
-#'
-#' @return
-#' @export
-#'
-#' @examples
-splitAndCombine <- function(gene, rxn,sep0) { ##one rxn has several genes, this function was used to splite the genes
-
-  gene <- str_split(gene, sep0)
-  tt<- length(gene)
-  gene0 <- list()
-  for (i in 1:tt){
-    gene0[[i]] <- paste(rxn[i], gene[[i]], sep = "@@@")
-
-  }
-
-  gene1 <- unique(unlist(gene0)) # the duplicated element is not deleted
-  gene2 <- str_split(gene1, "@@@" )
-  rxnGene <- data.frame(v1=character(length(gene2)),stringsAsFactors = FALSE)
-  tt1 <- length(gene2)
-  for (j in 1:tt1){
-    rxnGene$v1[j] <- gene2[[j]][2]
-    rxnGene$v2[j] <- gene2[[j]][1]
-  }
-
-  return(rxnGene)
 }
 
 
@@ -1018,32 +867,4 @@ removeStopCoden <- function(residue_pair00) {
     unite(V1, V1a, V1b, sep = "@@") %>%
     unite(V2, V2a, V2b, sep = "@@")
   return(residue_pair3)
-}
-
-
-#' newly added function, will integrate the main function
-#' this function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
-#' example
-#' strain_type <- "all_strain"
-#' strain_select1 <- chooseStrain(type = strain_type)
-#'
-#' @param type
-#' @param strain0
-#'
-#' @return
-#' @export
-#'
-#' @examples
-chooseStrain <- function(type,strain0=strain_classification){
-  #input: type--strain type, like Bioethonal, Wine
-  #output: strains set contained in each type
-  colnames(strain0) <- c('Standardized_name','Clades')
-  if(type=="all_strain"){
-    return(strain0)
-  } else{
-    strain_select <- filter(strain0, str_detect(strain0$Clades, type)) %>%
-      select(., Standardized_name)
-    return(strain_select)
-  }
-
 }
