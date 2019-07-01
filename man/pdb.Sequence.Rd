@@ -2,17 +2,23 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdb.Sequence}
 \alias{pdb.Sequence}
-\title{This function is used to extract the residue sequence from both experimental and homology pdb files
-Please library(bio3d) firstly when using this function}
+\title{Get PDB residue sequence}
 \usage{
 pdb.Sequence(pdbdir, pdbid)
 }
 \arguments{
-\item{pdbdir}{directory of a pdb file}
+\item{pdbdir}{Directory of a pdb file}
 
-\item{pdbid}{name of the pdb file, like '6cp6.pdb'}
+\item{pdbid}{Name of the pdb file, like '6cp6.pdb'}
+}
+\value{
+A list contains the residues sequence of each chain in a PDB file
 }
 \description{
-This function is used to extract the residue sequence from both experimental and homology pdb files
+Extract the residue sequence from both experimental and homology pdb files
 Please library(bio3d) firstly when using this function
+}
+\examples{
+pdbdir0 <-  "xx/data/6cp6.pdb"
+pdb.Sequence(pdbdir=pdbdir0, pdbid='6cp6.pdb')
 }

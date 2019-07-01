@@ -2,19 +2,26 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdbExFilter}
 \alias{pdbExFilter}
-\title{experimental pdb file filter function}
+\title{Experimental PDB files filtration}
 \usage{
 pdbExFilter(pdb_EX, pident0 = 100, mismatch0 = 0, resolution0 = 3.4)
 }
 \arguments{
-\item{pdb_EX}{a dataframe contains paramters for each experimental pdb file}
+\item{pdb_EX}{A dataframe contains paramters for each experimental pdb file}
 
-\item{pident0}{identity between target protein sequence and the residues sequence included in experimental PDB files}
+\item{pident0}{Identity between target protein sequence and the residues sequence included in experimental PDB files}
 
-\item{mismatch0}{mismatch between target protein sequence and the residues sequence included in experimental PDB files}
+\item{mismatch0}{Mismatch between target protein sequence and the residues sequence included in experimental PDB files}
 
-\item{resolution0}{}
+\item{resolution0}{Resolution of PBB file}
+}
+\value{
+A dataframe contain the experimental PDB files of high quality
 }
 \description{
-experimental pdb file filter function
+Remove experimental PDB files of low quality
+}
+\examples{
+s1 = data.frame(pident=c(99,98,100),mismatch=c(2,3,0), Resolution=c(6,2,3), stringsAsFactors = FALSE)
+pdbExFilter(pdb_EX=s1)
 }

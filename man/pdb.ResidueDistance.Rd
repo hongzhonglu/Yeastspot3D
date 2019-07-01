@@ -2,15 +2,26 @@
 % Please edit documentation in R/PDB_parse.R
 \name{pdb.ResidueDistance}
 \alias{pdb.ResidueDistance}
-\title{Title}
+\title{Calculate the distance between each two alpha carbons}
 \usage{
 pdb.ResidueDistance(pdbdir, chainID)
 }
 \arguments{
-\item{pdbdir}{dir for a pdb file}
+\item{pdbdir}{Dir for a pdb file}
 
-\item{chainID}{chainID for a chain}
+\item{chainID}{ChainID for a chain}
+}
+\value{
+A matrix contains the distance between each two alpha carbons
 }
 \description{
-Title
+Calculate the distance between each two alpha carbons
+}
+\examples{
+library(bio3d)
+library(seqinr)
+infile <- "xx/data/"
+pdbid <- '6cp6.pdb'
+pdbdir <- paste(infile, pdbid, sep = "")
+pdb.ResidueDistance(pdbdir, chainID = 'K')
 }
