@@ -170,3 +170,37 @@ countMutationProtein0 <- function (geneName, mutated_gene_seq, gene_annotation0)
 
   return(tt)
 }
+
+
+
+#' Note: This is old version of PositionResidueSNP
+#' this function return the mutated informaiton based on genomics fasta information
+#' this function is used to establish the relation between the mutated amino acid and related position
+#' @param alted_seq
+#' @param geneName
+#'
+#' @return
+#' @export
+#'
+#' @examples
+PositionResidue <- function(alted_seq, geneName) {
+  #alted_seq <- df_list[[6]]
+  #geneName <- "YAL012W"
+  gene_snp <- getGeneCoordinate(gene_name = geneName, genesum = gene_feature_GEM)
+  gene_snp[["gene"]] <- alted_seq
+
+  # translation
+  library(seqinr)
+  realcds <- str_to_lower(paste(gene_snp[["gene"]], collapse = ""))
+  toycds <- s2c(realcds)
+  gene_snp[["protein_mutated"]] <- translate(seq = toycds)
+
+  # find the relative postion of mutated amino acids
+  aa_position <- which(gene_snp[["protein"]] != gene_snp[["protein_mutated"]])
+  aa_type <- gene_snp[["protein_mutated"]][aa_position]
+
+  # built the relation between aa_position and aa_type
+  # aa_postion and aa_type should contain one element
+  mutatedAA <- paste(aa_type, aa_position, sep = "@@") # this estabolish the relation between the postion and mutated amino acids
+  return(mutatedAA)
+}
