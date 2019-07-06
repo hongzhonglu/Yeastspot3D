@@ -38,8 +38,6 @@ changeATCG <- function (ss){
 }
 
 
-
-
 #' Protein sequence quality check
 #'
 #' Check whether the translated protein from CDS is equal to the protein sequence
@@ -486,19 +484,7 @@ getPvalue <- function(wap_initial, wap_sampling) {
 
 
 
-
-
-
-
-
-
-
 # part 2 function related to hot spot analysis
-
-
-
-
-
 #' this function return the mutated informaiton based on SNP information: mutated position and changed amino acids
 #'
 #' @param mutatedPosition
