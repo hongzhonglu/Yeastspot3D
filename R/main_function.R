@@ -273,41 +273,22 @@ getDomainCoordinate <- function(dataframe0) {
 }
 
 
+# The followed two function  were used to estimate the mutation information based on single SNP information
+# using function to obtain the each gene's mutation information based on the processed mutation data
+# vesion 2
 
 
 
-#' the followed two function  were used to estimate the mutation information based on single SNP information
-#' using function to obtain the each gene's mutation information based on the processed mutation data
-#' vesion 2
+#' Obtain the mutation result of a nsSNP
 #'
-#' @param gene_name
-#' @param mutation_annotation
+#' This function is used to find the postion of mutated amino acids based on genomics mutation
 #'
-#' @return
-#' @export
+#' @param mutatedPosition A number
+#' @param alted A string, like 'A','G','C','T'
+#' @param geneName A string containing the systematic gene name
+#' @param gene_snp0 A list containing the detailed annotation of one gene
 #'
-#' @examples
-countMutationProtein <- function (gene_name, mutation_annotation, gene_snp0){
-  #this function could produce the all the results about mutated amino acids information
-  #gene_name <- "YDL205C"
-  mutated_gene0 <- filter(mutation_annotation, Gene2==gene_name)
-  tt <- rep(0,length(gene_snp0[['protein']]))
-  for (i in seq(length(mutated_gene0$Gene2))){
-    tt <- tt + findPPosition(mutated_gene0$Pos[i],mutated_gene0$Alt[i],gene_name, gene_snp0)
-  }
-
-  return(tt)
-}
-
-
-
-#' this function is used to find the postion of mutated amino acids based on genomics mutation
-#' version2
-#' @param mutatedPosition
-#' @param alted
-#' @param geneName
-#'
-#' @return
+#' @return A vector containing the 0 and 1 while 1 represent that the residue mutated in the corresponding position
 #' @export
 #'
 #' @examples
@@ -334,15 +315,39 @@ findPPosition <- function(mutatedPosition, alted, geneName, gene_snp0){
 }
 
 
-
-
-
-
-#' fuction to calculate the standard samples contained the mutation in the specific postion
+#' Count residues's mutation number
 #'
-#' @param sample_num
+#' Calculate the number of residues mutation in each site
 #'
-#' @return
+#' @param gene_name A string containing the systematic gene name
+#' @param mutation_annotation A dataframe containing the annotation of each SNP for one gene
+#' @param gene_snp0 A list containing the detailed annotation of one gene
+#'
+#' @return A vector containing the mutation number of residues in each site
+#' @export
+#'
+#' @examples
+countMutationProtein <- function (gene_name, mutation_annotation, gene_snp0){
+  #this function could produce the all the results about mutated amino acids information
+  #gene_name <- "YDL205C"
+  mutated_gene0 <- filter(mutation_annotation, Gene2==gene_name)
+  tt <- rep(0,length(gene_snp0[['protein']]))
+  for (i in seq(length(mutated_gene0$Gene2))){
+    tt <- tt + findPPosition(mutated_gene0$Pos[i],mutated_gene0$Alt[i],gene_name, gene_snp0)
+  }
+
+  return(tt)
+}
+
+
+
+#' Standardize the mutation number
+#'
+#' Calculate the standard samples contained the mutation in the specific postion
+#'
+#' @param sample_num A number
+#'
+#' @return A number
 #' @export
 #'
 #' @examples
@@ -352,24 +357,20 @@ sampleStand <- function (sample_num){
 }
 
 
-#' function to calculate the initial WAP value
+#' Get WAP
 #'
-#' @param mutated_pos
-#' @param sample0
-#' @param distance
+#' Calculate the initial WAP value of one kind of mutation distribution
 #'
-#' @return
+#' @param mutated_pos A vector contained mutated position
+#' @param sample0 A vector containing the standard number of mutation on each site of protein 3D structure
+#' @param distance A residues distance matrix
+#'
+#' @return A number
 #' @export
 #'
 #' @examples
 getTotalWAP <- function (mutated_pos, sample0, distance){
-  #input
-  #mutated_pos   a vector contained all mutated psotion
-  #sample0       a vector contained the strandard num of sample contains the above mutation
-  #distance      a matrix contrains the pair distance
 
-  #output
-  #wap1          a num
 
   all_pair <- combn(mutated_pos, 2)
   wap1 <- 0
@@ -393,15 +394,17 @@ getTotalWAP <- function (mutated_pos, sample0, distance){
 
 
 
-#' function to calculate the sample WAP
+#' Get the sampled WAP score
 #'
-#' @param mutated_pos
-#' @param sample0
-#' @param distance
-#' @param seq
-#' @param n
+#' Calculate the WAP score based on CLUMPS paper
 #'
-#' @return
+#' @param mutated_pos A vector containing the interesting site on the protein 3D structure (?)
+#' @param sample0 A vector containing the standard number of mutation on each site of protein 3D structure
+#' @param distance A residues distance matrix
+#' @param seq A vector containing the coordinate of protein 3D structure
+#' @param n A sample number
+#'
+#' @return A vector containing the WAP scores in the sampling analysis
 #' @export
 #'
 #' @examples
@@ -424,13 +427,14 @@ getSampleWAP <- function(mutated_pos, sample0, distance, seq=seq0, n=10000){
 
 
 
-#' function to plot the desity graph
-#' the wap_original0 now can be added as a line in x-axis
+#' Plot the desity graph of WAP
 #'
-#' @param wap_sample
-#' @param wap_original0
+#' Obtain the distribution of sampled WAP
 #'
-#' @return
+#' @param wap_sample A vector containing the sampled WAP score
+#' @param wap_original0 A number
+#'
+#' @return An R graph
 #' @export
 #'
 #' @examples
@@ -458,23 +462,18 @@ plotNullDistribution <- function(wap_sample, wap_original0=FALSE) {
 
 
 
-#' function to calculate the right-tailed p value
+#' Calculate p-value
 #'
-#' @param wap_initial
-#' @param wap_sampling
+#' Calculate the right-tailed p value
 #'
-#' @return
+#' @param wap_initial A number
+#' @param wap_sampling A vector of wap obtained sampling method
+#'
+#' @return right tailed p value
 #' @export
 #'
 #' @examples
 getPvalue <- function(wap_initial, wap_sampling) {
-
-  #input:
-  #wap_initial  a num
-  #wap_sampling a vector of wap obtained sampling method
-
-  #output:
-  #right tailed p value
 
   index1 <- which(wap_sampling >= wap_initial)
   tail.prob <- (length(index1) + 1) / length(wap_sampling)
@@ -484,14 +483,15 @@ getPvalue <- function(wap_initial, wap_sampling) {
 
 
 
-# part 2 function related to hot spot analysis
+#' Get residue mutation from nsSNP
+#'
 #' this function return the mutated informaiton based on SNP information: mutated position and changed amino acids
 #'
-#' @param mutatedPosition
-#' @param alted
-#' @param geneName
+#' @param mutatedPosition A number
+#' @param alted A string, for example alted ='A'
+#' @param geneName A string containing the gene name
 #'
-#' @return
+#' @return A string containing the information of mutated residues
 #' @export
 #'
 #' @examples
@@ -522,11 +522,13 @@ PositionResidueSNP <- function(mutatedPosition, alted, geneName, gene_feature) {
 
 
 
-#' this function is used to put the residue from the same postion together
+#' Summarize the mutated residues information
 #'
-#' @param pos_residue
+#' Put the residue from the same postion together
 #'
-#' @return
+#' @param pos_residue A list contains the mutated residues information
+#'
+#' @return A dataframe contains the mutation position and the 'alt' residues
 #' @export
 #'
 #' @examples
@@ -543,28 +545,22 @@ ResidueSum <- function(pos_residue) {
 }
 
 
-#' this function is used to get the vertices
+
+
+#' Get significant pairs
 #'
-#' @param aa_3d
-#' @param residue0
-#' @param aa_pro
-#' @param distance0
+#' This function is used to filter significant pairs based on hotspot paper
 #'
-#' @return
+#' @param aa_3d A vector for the coordinate of PDB structure
+#' @param residue0 A vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
+#' @param aa_pro A vector for the original coordinate of protein aa sequence
+#' @param distance0 A matrix for the distance of the paired residue of pdb structure
+#'
+#' @return A dataframe contains the inforation of the mutated residues
 #' @export
 #'
 #' @examples
 getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
-  #input
-  #aa_3d  a vector for the coordinate of PDB structure
-  #residue0  a vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
-  #aa_pro a vector for the original coordinate of protein aa sequence
-  #ditance  a matrix for the distance of the paired residue of pdb structure
-
-  #output
-  #dataframe contains the inforation of the mutated residues
-
-
   #function test
   #"YAL012W" sequence and structure is used
   #aa_3d = seq0
