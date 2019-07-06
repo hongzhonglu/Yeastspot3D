@@ -2,13 +2,20 @@
 % Please edit documentation in R/main_function.R
 \name{getDomainCoordinate}
 \alias{getDomainCoordinate}
-\title{function to get the coordinate information of domain occured in each gene}
+\title{Mapping domain coordinate onto the protein 3D structure}
 \usage{
 getDomainCoordinate(dataframe0)
 }
 \arguments{
-\item{dataframe0}{}
+\item{dataframe0}{A dataframe containing the coordinate mapping information between a PDB file and a protein}
+}
+\value{
+A dataframe containing the coordinate mapping between a pdb file and a protein domain
 }
 \description{
-function to get the coordinate information of domain occured in each gene
+With the protein domain annotation, this function get the relative coordinates of domain within a protein 3D strucutre.
+}
+\examples{
+data('pdb_inf_test')
+getDomainCoordinate(dataframe0=pdb_inf_test)
 }

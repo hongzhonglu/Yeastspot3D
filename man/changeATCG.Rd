@@ -2,22 +2,15 @@
 % Please edit documentation in R/main_function.R
 \name{changeATCG}
 \alias{changeATCG}
-\title{changeATCG should be used to firstly,if the cds from the minus strand
-get the mutation information on the minus strand based on that from the positive strand
-The followed exlain that why we need changeATCG for gene from minus strand
-Both + and - strands have 5'-3' and 3'-5' directions, however, the genomic coordinates refer
-to only the 5'-3' direction of the reference, +, strand. Your second statement is indeed correct.
-Another illustrative example, if you want to find the transcription start site (TSS) of a gene that
-spans the region of (in genomic coordinates) 10800 to 11200 in, say, chromosome 11, then you should
-also consider which strand the gene is located in. Let's say the base at 10800 is A and the base at
-11200 is C. If the gene is in the + strand, than 10800-11200 refer to the 5'-3' of the gene, hence
-the TSS is 10800 A. If the genes is in the - strand, then 10800-11200 (always for + strand) corresponds
-to the 3'-5' direction of the gene located in the complementary strand, hence the TSS is 11200 G (complementar to C).}
+\title{Nucleotide conversion for the gene from minus strand}
 \usage{
 changeATCG(ss)
 }
 \arguments{
-\item{ss}{}
+\item{ss}{A kind of nucleotide}
+}
+\value{
+A string of complementary nucleotide
 }
 \description{
 changeATCG should be used to firstly,if the cds from the minus strand
@@ -31,4 +24,10 @@ also consider which strand the gene is located in. Let's say the base at 10800 i
 11200 is C. If the gene is in the + strand, than 10800-11200 refer to the 5'-3' of the gene, hence
 the TSS is 10800 A. If the genes is in the - strand, then 10800-11200 (always for + strand) corresponds
 to the 3'-5' direction of the gene located in the complementary strand, hence the TSS is 11200 G (complementar to C).
+}
+\examples{
+changeATCG(ss="A")
+changeATCG(ss="C")
+changeATCG(ss="T")
+changeATCG(ss="G")
 }
