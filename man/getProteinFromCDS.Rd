@@ -2,13 +2,19 @@
 % Please edit documentation in R/main_function.R
 \name{getProteinFromCDS}
 \alias{getProteinFromCDS}
-\title{this function can produce the amino acid seq based on cds sequence}
+\title{Translate CDS into Protein}
 \usage{
 getProteinFromCDS(cds0)
 }
 \arguments{
-\item{cds0}{}
+\item{cds0}{A string containing cds sequence}
+}
+\value{
+A string containing the protein sequence
 }
 \description{
-this function can produce the amino acid seq based on cds sequence
+Produce the amino acid seq based on cds sequence
+}
+\examples{
+getProteinFromCDS(cds0="ATGGAAATGA")
 }

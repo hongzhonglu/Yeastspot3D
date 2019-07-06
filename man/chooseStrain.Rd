@@ -2,21 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{chooseStrain}
 \alias{chooseStrain}
-\title{newly added function, will integrate the main function
-this function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
-example
-strain_type <- "all_strain"
-strain_select1 <- chooseStrain(type = strain_type)}
+\title{Choose strains which belong to the same group}
 \usage{
 chooseStrain(type, strain0 = strain_classification)
 }
 \arguments{
-\item{strain0}{}
+\item{type}{A string representing the strain group name}
+
+\item{strain0}{A dataframe contain all 1011 yeast strains' classification information}
+}
+\value{
+A vector containing strain name
 }
 \description{
-newly added function, will integrate the main function
-this function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
-example
+This function is mainly used to choose the strain based on the strain type defined in 1011 genome sequence project
+}
+\examples{
 strain_type <- "all_strain"
 strain_select1 <- chooseStrain(type = strain_type)
 }

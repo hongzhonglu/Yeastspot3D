@@ -2,7 +2,8 @@
 % Please edit documentation in R/main_function.R
 \name{findPPosition}
 \alias{findPPosition}
-\title{this function is used to find the postion of mutated amino acids based on genomics mutation}
+\title{this function is used to find the postion of mutated amino acids based on genomics mutation
+version2}
 \usage{
 findPPosition(mutatedPosition, alted, geneName, gene_snp0)
 }
@@ -11,4 +12,5 @@ findPPosition(mutatedPosition, alted, geneName, gene_snp0)
 }
 \description{
 this function is used to find the postion of mutated amino acids based on genomics mutation
+version2
 }

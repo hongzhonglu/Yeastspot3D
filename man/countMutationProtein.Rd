@@ -4,7 +4,7 @@
 \alias{countMutationProtein}
 \title{the followed two function  were used to estimate the mutation information based on single SNP information
 using function to obtain the each gene's mutation information based on the processed mutation data
-----------------vesion 2}
+vesion 2}
 \usage{
 countMutationProtein(gene_name, mutation_annotation, gene_snp0)
 }
@@ -14,5 +14,5 @@ countMutationProtein(gene_name, mutation_annotation, gene_snp0)
 \description{
 the followed two function  were used to estimate the mutation information based on single SNP information
 using function to obtain the each gene's mutation information based on the processed mutation data
-----------------vesion 2
+vesion 2
 }

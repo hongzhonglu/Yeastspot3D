@@ -2,17 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{checkTanslatedProtein}
 \alias{checkTanslatedProtein}
-\title{this function is used to check whether the translated protein is equal to the protein sequence
-from the sgd database, if they are equal, the original cds sequence and protein sequence is consistent in
-our program}
+\title{Protein sequence quality check}
 \usage{
 checkTanslatedProtein(gene_seq_inf)
 }
 \arguments{
-\item{gene_seq_inf}{}
+\item{gene_seq_inf}{A  gene feature dataframe, each row contains the gene annotation information, like the coordinates, the cds sequence}
+}
+\value{
+A list contains the gene with right translated protein and the gene with wrong translated protein
 }
 \description{
-this function is used to check whether the translated protein is equal to the protein sequence
+Check whether the translated protein from CDS is equal to the protein sequence
 from the sgd database, if they are equal, the original cds sequence and protein sequence is consistent in
 our program
+}
+\examples{
+data('gene_feature0')
+checkTanslatedProtein(gene_feature0)
 }

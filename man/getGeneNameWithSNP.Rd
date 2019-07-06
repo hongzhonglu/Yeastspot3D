@@ -2,12 +2,19 @@
 % Please edit documentation in R/main_function.R
 \name{getGeneNameWithSNP}
 \alias{getGeneNameWithSNP}
-\title{this function is used to obtain the metabolic gene list which have SNP, in total there are 36 metabolic genes which
-don't have the mutation}
+\title{List genes with SNPs}
 \usage{
 getGeneNameWithSNP()
 }
+\value{
+A vector contain the gene name
+}
 \description{
-this function is used to obtain the metabolic gene list which have SNP, in total there are 36 metabolic genes which
+Obtain the gene list which have SNP, in total there are 36 metabolic genes which
 don't have the mutation
+}
+\examples{
+# Firstly, open one R project
+# Then put the SNP file in the directory of "xx/data"
+getGeneNameWithSNP()
 }
