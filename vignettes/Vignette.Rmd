@@ -1,0 +1,78 @@
+---
+title: "Vignette for Yeastspot3D package"
+author: "Hongzhong Lu"
+date: '`r format(Sys.time(), "%d %B %Y")`'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Vignette for Yeastspot3D package}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+# knitr::opts_knit$set(root.dir = normalizePath("/Users/mbuljan/Documents/Paket_op/DominoEffect_radna/inst/doc"))
+#library(devtools)
+#knitr::opts_knit$set(root.dir = normalizePath(inst("Yeastspot3D"))) 
+```
+
+The package can be directly installed from the GitHub.
+```{r, eval=FALSE}
+library(devtools)
+install_github("hongzhonglu/Yeastspot3D",dependencies =TRUE)
+```
+
+
+## Running the package
+Load the package before starting the analysis.
+
+```{r}
+library(Yeastspot3D)
+loadPackageForSNPanalysis()
+```
+
+
+Mutation enrichment analysis
+```{r}
+data('gene_feature0', package = "Yeastspot3D")
+data('snp_data', package = "Yeastspot3D")
+data('ResidueDistance_YPR184W', package = "Yeastspot3D")
+mutated_gene <- annotateSNP(snp_input = snp_data, gene_feature = gene_feature0)
+mutated_gene1 <- filter(mutated_gene, Gene2 == 'YPR184W')
+result0 <- clumpsAnalysis(gene0 = 'YPR184W',
+                          SNPlist0 = mutated_gene1,
+                          gene_annotation0 = gene_feature0,
+                          pdb = ResidueDistance_YPR184W,
+                          sstart0 = 2,
+                          send0 = 1534,
+                          input_dir= FALSE)
+```
+
+Mutation hotspot analysis
+```{r}
+# run the function
+data('snp_YBR046C')
+data('ResidueDistance_YBR046C')
+outfile0 <- 'result/hot_spot_analysis'
+dir.create(outfile0)
+
+hotSpotAnalysis(
+  gene0 = "YBR046C",
+  SNPlist0 = snp_YBR046C,
+  gene_annotation0 = gene_feature0,
+  pdb = ResidueDistance_YBR046C,
+  sstart0 = 5, # coordinate of original protein residues sequence
+  send0 = 333,     # coordinate of original protein residues sequence
+  qstart0 =1 , # coordinate of protein residues sequence in pdb file
+  qend0 = 329,     # coordinate of protein residues sequence in pdb file
+  result_dir = outfile0,
+  input_dir=FALSE
+)
+```
+
+
+
+
+
+
+
