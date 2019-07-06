@@ -1,1 +1,21 @@
-exportPattern("^[[:alpha:]]+")
+export("mergeGeneAnnotationFeature")
+export("annotateSNP")
+export("clumpsAnalysis")
+export("hotSpotAnalysis")
+export("mergeGeneAnnotationFeature")
+export("printSNPforGene")
+
+
+import(tidyverse)
+import(dplyr)
+import(magrittr)
+import(purrr)
+import(readr)
+import(stringr)
+import(readxl)
+import(Biostrings)
+import(seqinr)
+import(filesstrings)
+
+importFrom("igraph", "graph_from_data_frame", "decompose.graph")
+importFrom("centiserve", "closeness.residual")
