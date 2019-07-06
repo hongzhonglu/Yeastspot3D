@@ -2,17 +2,20 @@
 % Please edit documentation in R/main_function.R
 \name{countMutationProtein}
 \alias{countMutationProtein}
-\title{the followed two function  were used to estimate the mutation information based on single SNP information
-using function to obtain the each gene's mutation information based on the processed mutation data
-vesion 2}
+\title{Count residues's mutation number}
 \usage{
 countMutationProtein(gene_name, mutation_annotation, gene_snp0)
 }
 \arguments{
-\item{mutation_annotation}{}
+\item{gene_name}{A string containing the systematic gene name}
+
+\item{mutation_annotation}{A dataframe containing the annotation of each SNP for one gene}
+
+\item{gene_snp0}{A list containing the detailed annotation of one gene}
+}
+\value{
+A vector containing the mutation number of residues in each site
 }
 \description{
-the followed two function  were used to estimate the mutation information based on single SNP information
-using function to obtain the each gene's mutation information based on the processed mutation data
-vesion 2
+Calculate the number of residues mutation in each site
 }

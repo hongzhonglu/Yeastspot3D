@@ -2,12 +2,19 @@
 % Please edit documentation in R/main_function.R
 \name{PositionResidueSNP}
 \alias{PositionResidueSNP}
-\title{this function return the mutated informaiton based on SNP information: mutated position and changed amino acids}
+\title{Get residue mutation from nsSNP}
 \usage{
 PositionResidueSNP(mutatedPosition, alted, geneName, gene_feature)
 }
 \arguments{
-\item{geneName}{}
+\item{mutatedPosition}{A number}
+
+\item{alted}{A string, for example alted ='A'}
+
+\item{geneName}{A string containing the gene name}
+}
+\value{
+A string containing the information of mutated residues
 }
 \description{
 this function return the mutated informaiton based on SNP information: mutated position and changed amino acids

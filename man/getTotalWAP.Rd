@@ -2,13 +2,20 @@
 % Please edit documentation in R/main_function.R
 \name{getTotalWAP}
 \alias{getTotalWAP}
-\title{function to calculate the initial WAP value}
+\title{Get WAP}
 \usage{
 getTotalWAP(mutated_pos, sample0, distance)
 }
 \arguments{
-\item{distance}{}
+\item{mutated_pos}{A vector contained mutated position}
+
+\item{sample0}{A vector containing the standard number of mutation on each site of protein 3D structure}
+
+\item{distance}{A residues distance matrix}
+}
+\value{
+A number
 }
 \description{
-function to calculate the initial WAP value
+Calculate the initial WAP value of one kind of mutation distribution
 }

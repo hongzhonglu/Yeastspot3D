@@ -2,13 +2,16 @@
 % Please edit documentation in R/main_function.R
 \name{ResidueSum}
 \alias{ResidueSum}
-\title{this function is used to put the residue from the same postion together}
+\title{Summarize the mutated residues information}
 \usage{
 ResidueSum(pos_residue)
 }
 \arguments{
-\item{pos_residue}{}
+\item{pos_residue}{A list contains the mutated residues information}
+}
+\value{
+A dataframe contains the mutation position and the 'alt' residues
 }
 \description{
-this function is used to put the residue from the same postion together
+Put the residue from the same postion together
 }

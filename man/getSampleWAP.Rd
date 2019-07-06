@@ -2,13 +2,24 @@
 % Please edit documentation in R/main_function.R
 \name{getSampleWAP}
 \alias{getSampleWAP}
-\title{function to calculate the sample WAP}
+\title{Get the sampled WAP score}
 \usage{
 getSampleWAP(mutated_pos, sample0, distance, seq = seq0, n = 10000)
 }
 \arguments{
-\item{n}{}
+\item{mutated_pos}{A vector containing the interesting site on the protein 3D structure (?)}
+
+\item{sample0}{A vector containing the standard number of mutation on each site of protein 3D structure}
+
+\item{distance}{A residues distance matrix}
+
+\item{seq}{A vector containing the coordinate of protein 3D structure}
+
+\item{n}{A sample number}
+}
+\value{
+A vector containing the WAP scores in the sampling analysis
 }
 \description{
-function to calculate the sample WAP
+Calculate the WAP score based on CLUMPS paper
 }
