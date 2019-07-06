@@ -17,5 +17,5 @@ import(Biostrings)
 import(seqinr)
 import(filesstrings)
 
-importFrom("igraph", "graph_from_data_frame", "decompose.graph")
-importFrom("centiserve", "closeness.residual")
+importFrom(igraph, "graph_from_data_frame", "decompose.graph")
+importFrom(centiserve, "closeness.residual")
