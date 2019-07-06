@@ -2,13 +2,18 @@
 % Please edit documentation in R/main_function.R
 \name{getOriginalCoordinateProtein}
 \alias{getOriginalCoordinateProtein}
-\title{this function is used to get the original residues coordinates for the hotspot analysis based on the protein structure}
+\title{Obtain protein residues coordinate}
 \usage{
 getOriginalCoordinateProtein(coordinate0, coordinate_mapping0)
 }
 \arguments{
-\item{coordinate_mapping0}{}
+\item{coordinate0}{A vector containing the reidues coordinate from the protein 3D structure}
+
+\item{coordinate_mapping0}{A dataframe containing the mapping in the coordinate between the protein 3D structure and protein}
+}
+\value{
+A vector containing the original protein residues coordinate
 }
 \description{
-this function is used to get the original residues coordinates for the hotspot analysis based on the protein structure
+This function is used to get the original residues coordinates for the hotspot analysis based on the protein structure
 }

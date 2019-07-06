@@ -2,15 +2,17 @@
 % Please edit documentation in R/main_function.R
 \name{removeStopCoden}
 \alias{removeStopCoden}
-\title{this function is used to remove the wrong residues obtained by the stop coden
-if it is stop coden, then the residue could be *, thus the next step will stop}
+\title{Remove stop coden}
 \usage{
 removeStopCoden(residue_pair00)
 }
 \arguments{
-\item{residue_pair00}{}
+\item{residue_pair00}{A dataframe contains the information of sigificant pairs}
+}
+\value{
+A dataframe of sigificant pairs without residue translated by stop coden
 }
 \description{
-this function is used to remove the wrong residues obtained by the stop coden
+Remove the wrong residues obtained by the stop coden
 if it is stop coden, then the residue could be *, thus the next step will stop
 }

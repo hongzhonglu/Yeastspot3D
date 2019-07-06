@@ -2,13 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{getHotVertice}
 \alias{getHotVertice}
-\title{this function is used to get the vertices}
+\title{Get significant pairs}
 \usage{
 getHotVertice(aa_3d, residue0, aa_pro, distance0)
 }
 \arguments{
-\item{distance0}{}
+\item{aa_3d}{A vector for the coordinate of PDB structure}
+
+\item{residue0}{A vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times}
+
+\item{aa_pro}{A vector for the original coordinate of protein aa sequence}
+
+\item{distance0}{A matrix for the distance of the paired residue of pdb structure}
+}
+\value{
+A dataframe contains the inforation of the mutated residues
 }
 \description{
-this function is used to get the vertices
+This function is used to filter significant pairs based on hotspot paper
 }

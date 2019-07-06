@@ -2,15 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{findPPosition}
 \alias{findPPosition}
-\title{this function is used to find the postion of mutated amino acids based on genomics mutation
-version2}
+\title{Obtain the mutation result of a nsSNP}
 \usage{
 findPPosition(mutatedPosition, alted, geneName, gene_snp0)
 }
 \arguments{
-\item{geneName}{}
+\item{mutatedPosition}{A number}
+
+\item{alted}{A string, like 'A','G','C','T'}
+
+\item{geneName}{A string containing the systematic gene name}
+
+\item{gene_snp0}{A list containing the detailed annotation of one gene}
+}
+\value{
+A vector containing the 0 and 1 while 1 represent that the residue mutated in the corresponding position
 }
 \description{
-this function is used to find the postion of mutated amino acids based on genomics mutation
-version2
+This function is used to find the postion of mutated amino acids based on genomics mutation
 }

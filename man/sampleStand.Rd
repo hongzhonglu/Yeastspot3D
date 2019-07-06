@@ -2,13 +2,16 @@
 % Please edit documentation in R/main_function.R
 \name{sampleStand}
 \alias{sampleStand}
-\title{fuction to calculate the standard samples contained the mutation in the specific postion}
+\title{Standardize the mutation number}
 \usage{
 sampleStand(sample_num)
 }
 \arguments{
-\item{sample_num}{}
+\item{sample_num}{A number}
+}
+\value{
+A number
 }
 \description{
-fuction to calculate the standard samples contained the mutation in the specific postion
+Calculate the standard samples contained the mutation in the specific postion
 }

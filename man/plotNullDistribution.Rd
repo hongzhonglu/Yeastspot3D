@@ -2,15 +2,18 @@
 % Please edit documentation in R/main_function.R
 \name{plotNullDistribution}
 \alias{plotNullDistribution}
-\title{function to plot the desity graph
-the wap_original0 now can be added as a line in x-axis}
+\title{Plot the desity graph of WAP}
 \usage{
 plotNullDistribution(wap_sample, wap_original0 = FALSE)
 }
 \arguments{
-\item{wap_original0}{}
+\item{wap_sample}{A vector containing the sampled WAP score}
+
+\item{wap_original0}{A number}
+}
+\value{
+An R graph
 }
 \description{
-function to plot the desity graph
-the wap_original0 now can be added as a line in x-axis
+Obtain the distribution of sampled WAP
 }

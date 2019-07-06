@@ -2,13 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{mappingCoordinateFrom3DtoProtein}
 \alias{mappingCoordinateFrom3DtoProtein}
-\title{this function is used to establish the mapping in the coordinate from protein structure and from protein sequence}
+\title{Coordinate mapping between protein and the related structure}
 \usage{
 mappingCoordinateFrom3DtoProtein(aa_3d, residue0)
 }
 \arguments{
-\item{distance0}{}
+\item{aa_3d}{A vector for the coordinate of PDB structure}
+
+\item{residue0}{A vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times}
+
+\item{aa_pro}{A vector for the original coordinate of protein aa sequence}
+
+\item{distance0}{A matrix for the distance of the paired residue of pdb structure}
+}
+\value{
+A dataframe contains the old coordinate from protein sequence and new coordinate from structure
 }
 \description{
-this function is used to establish the mapping in the coordinate from protein structure and from protein sequence
+This function is used to establish the mapping in the coordinate from protein structure and from protein sequence
 }

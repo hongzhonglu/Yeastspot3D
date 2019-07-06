@@ -2,13 +2,22 @@
 % Please edit documentation in R/main_function.R
 \name{getHotPvalue}
 \alias{getHotPvalue}
-\title{this function is used to calculate p value for each clust}
+\title{Get p-value for each cluster}
 \usage{
 getHotPvalue(cluster0, sample_standard, distance, seq)
 }
 \arguments{
-\item{seq}{}
+\item{cluster0}{A vector contains the detailed mutation postion information for each cluster}
+
+\item{sample_standard}{A vector contains the standard number of mutated residue in each position}
+
+\item{distance}{A matrix contains the ditance for each paired residue}
+
+\item{seq}{A vector contains the coordinate information of each amino acid}
+}
+\value{
+A vector contains the calculated pvalue for each cluster
 }
 \description{
-this function is used to calculate p value for each clust
+Calculate p value for each small clust
 }

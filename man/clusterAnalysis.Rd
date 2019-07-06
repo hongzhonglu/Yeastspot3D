@@ -2,13 +2,16 @@
 % Please edit documentation in R/main_function.R
 \name{clusterAnalysis}
 \alias{clusterAnalysis}
-\title{this function is used to obtain the cluster analysis results}
+\title{Cluster summary}
 \usage{
 clusterAnalysis(residueInf)
 }
 \arguments{
-\item{residueInf}{}
+\item{residueInf}{A dataframe contains the detailed information about the residue}
+}
+\value{
+A dataframe contains the cluster information
 }
 \description{
-this function is used to obtain the cluster analysis results
+This function is used to obtain the cluster analysis results
 }
