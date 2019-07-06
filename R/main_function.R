@@ -628,27 +628,20 @@ getHotVertice <- function(aa_3d, residue0, aa_pro, distance0) {
 }
 
 
-#' this function is used to establish the mapping in the coordinate from protein structure and from protein sequence
+#' Coordinate mapping between protein and the related structure
 #'
-#' @param aa_3d
-#' @param residue0
-#' @param aa_pro
-#' @param distance0
+#' This function is used to establish the mapping in the coordinate from protein structure and from protein sequence
 #'
-#' @return
+#' @param aa_3d A vector for the coordinate of PDB structure
+#' @param residue0 A vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
+#' @param aa_pro A vector for the original coordinate of protein aa sequence
+#' @param distance0 A matrix for the distance of the paired residue of pdb structure
+#'
+#' @return A dataframe contains the old coordinate from protein sequence and new coordinate from structure
 #' @export
 #'
 #' @examples
 mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0) {
-  #input
-  #aa_3d  a vector for the coordinate of PDB structure
-  #residue0  a vector contained all the muated residue information of the stucture and it can be found the same mutation in residue occured many times
-  #aa_pro a vector for the original coordinate of protein aa sequence
-  #ditance  a matrix for the distance of the paired residue of pdb structure
-
-  #output
-  #dataframe contains the old coordinate from protein sequence and new coordinate from structure
-
 
   #function test
   #aa_3d = seq_3D
@@ -672,12 +665,16 @@ mappingCoordinateFrom3DtoProtein <- function(aa_3d, residue0) {
 }
 
 
-#' this function is used to get the original residues coordinates for the hotspot analysis based on the protein structure
+
+
+#' Obtain protein residues coordinate
 #'
-#' @param coordinate0
-#' @param coordinate_mapping0
+#' This function is used to get the original residues coordinates for the hotspot analysis based on the protein structure
 #'
-#' @return
+#' @param coordinate0 A vector containing the reidues coordinate from the protein 3D structure
+#' @param coordinate_mapping0 A dataframe containing the mapping in the coordinate between the protein 3D structure and protein
+#'
+#' @return A vector containing the original protein residues coordinate
 #' @export
 #'
 #' @examples
@@ -700,20 +697,17 @@ getOriginalCoordinateProtein <- function(coordinate0,coordinate_mapping0){
 
 
 
-#' this function is used to obtain the cluster analysis results
+#' Cluster summary
 #'
-#' @param residueInf
+#' This function is used to obtain the cluster analysis results
 #'
-#' @return
+#' @param residueInf A dataframe contains the detailed information about the residue
+#'
+#' @return A dataframe contains the cluster information
 #' @export
 #'
 #' @examples
 clusterAnalysis <- function(residueInf) {
-  #input
-  #residueInf  dataframe contains the detailed information about the residue
-
-  #output
-  # a dataframe contains the cluster information
 
   # obtain the clusters
   links <- data_frame(from = residueInf$V1, to = residueInf$V2, weight = residueInf$distance)
@@ -748,26 +742,21 @@ clusterAnalysis <- function(residueInf) {
 
 
 
-#' this function is used to calculate p value for each clust
+#' Get p-value for each cluster
 #'
-#' @param cluster0
-#' @param sample_standard
-#' @param distance
-#' @param seq
+#' Calculate p value for each small clust
 #'
-#' @return
+#' @param cluster0 A vector contains the detailed mutation postion information for each cluster
+#' @param sample_standard A vector contains the standard number of mutated residue in each position
+#' @param distance A matrix contains the ditance for each paired residue
+#' @param seq A vector contains the coordinate information of each amino acid
+#'
+#' @return A vector contains the calculated pvalue for each cluster
 #' @export
 #'
 #' @examples
 getHotPvalue <- function(cluster0, sample_standard, distance, seq) {
   #cluster0 <- important_hot$cluster
-  #input
-  # cluster0    a vector contains the detailed mutation postion information for each cluster
-  # sample_standard   a vector contains the standard number of mutated residue in each position
-  # ditance a matrix contains the ditance for each paired residue
-  # seq   a vector contains the coordinate information of each amino acid
-  #output
-  # a vector contains the calculated pvalue for each cluster
 
 
   # obtain the detaile postion for each cluster
@@ -801,20 +790,19 @@ getHotPvalue <- function(cluster0, sample_standard, distance, seq) {
 
 
 
-#' this function is used to remove the wrong residues obtained by the stop coden
+#' Remove stop coden
+#'
+#' Remove the wrong residues obtained by the stop coden
 #' if it is stop coden, then the residue could be *, thus the next step will stop
 #'
-#' @param residue_pair00
+#' @param residue_pair00  A dataframe contains the information of sigificant pairs
 #'
-#' @return
+#' @return A dataframe of sigificant pairs without residue translated by stop coden
 #' @export
 #'
 #' @examples
 removeStopCoden <- function(residue_pair00) {
-  #input
-  #residue_pair00, a dataframe contains the information of sigificant pairs
-  #output
-  #a dataframe of sigificant pairs without residue translated by stop coden
+
   residue_pair1 <- residue_pair00 %>%
     separate(V1, into = c("V1a", "V1b"), sep = "@@") %>%
     separate(V2, into = c("V2a", "V2b"), sep = "@@")
