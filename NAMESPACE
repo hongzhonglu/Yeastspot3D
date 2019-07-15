@@ -12,7 +12,12 @@ export("printSNPforGene")
 export("chooseStrain")
 export("getGeneNameWithSNP")
 export("preprocessSNP")
-
+export("getGeneCoordinate")
+export("countMutationProtein")
+export("sampleStand")
+export("getTotalWAP")
+export("getSampleWAP")
+export("getPvalue")
 
 import(tidyverse)
 import(magrittr)
