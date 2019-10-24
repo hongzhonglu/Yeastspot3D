@@ -5,7 +5,12 @@ This repository contains R scripts for package Yeastspot3D.
 ## Overview
 The Yeastspot3D package allows for mutation mapping analysis for yeast based on protein 3D structure in an easy and flexible way. It could not only explore mutation distribution on the structure as a whole, but also provides HotSpot analysis within a protein structure.
 
-## Yeastspot3D paper - 'Yeastspot3D: an R package to explore yeast mutation hotspot distribution within protein 3D structures
+## Yeastspot3D paper
+
+Title:
+Yeastspot3D: an R package to explore yeast mutation hotspot distribution within protein 3D structures
+
+Author:
 Hongzhong Lu, Eduard J Kerkhoven, Jens Nielsen
 
 Abstract:
