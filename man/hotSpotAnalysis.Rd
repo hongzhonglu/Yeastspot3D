@@ -4,10 +4,20 @@
 \alias{hotSpotAnalysis}
 \title{Mutation hotspot analysis}
 \usage{
-hotSpotAnalysis(gene0 = ss0, pdbID = NA, SNPlist0 = mutated_gene1,
-  gene_annotation0 = gene_feature0, pdb = distance, sstart0 = p1,
-  send0 = p2, qstart0 = q1, qend0 = q2, result_dir = outfile0,
-  strain_type = NA, input_dir = TRUE)
+hotSpotAnalysis(
+  gene0 = ss0,
+  pdbID = NA,
+  SNPlist0 = mutated_gene1,
+  gene_annotation0 = gene_feature0,
+  pdb = distance,
+  sstart0 = p1,
+  send0 = p2,
+  qstart0 = q1,
+  qend0 = q2,
+  result_dir = outfile0,
+  strain_type = NA,
+  input_dir = TRUE
+)
 }
 \arguments{
 \item{gene0}{A gene systematic name}

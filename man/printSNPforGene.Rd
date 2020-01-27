@@ -4,9 +4,14 @@
 \alias{printSNPforGene}
 \title{Print the mutated residues}
 \usage{
-printSNPforGene(gene0 = ss0, SNPlist0 = mutated_gene1,
-  gene_annotation0 = gene_feature0, pdbID0 = pdbID, sstart0 = p1,
-  send0 = p2)
+printSNPforGene(
+  gene0 = ss0,
+  SNPlist0 = mutated_gene1,
+  gene_annotation0 = gene_feature0,
+  pdbID0 = pdbID,
+  sstart0 = p1,
+  send0 = p2
+)
 }
 \arguments{
 \item{gene0}{A gene systematic name}
