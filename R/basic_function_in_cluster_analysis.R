@@ -114,7 +114,7 @@ chooseStrain <- function(type, strain0=strain_classification){
 #' # Firstly, open one R project
 #' # Then put the SNP file in the directory of "xx/data"
 #' getGeneNameWithSNP()
-getGeneNameWithSNP <- function() {
+getGeneNameWithSNP1 <- function() { # This is the old version
   #input
   #the dir of  file 'gene_snp'
   #output
@@ -147,13 +147,86 @@ getGeneNameWithSNP <- function() {
 #' @examples
 #' data('gene_feature0')
 #' preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0)
-preprocessSNP <- function(gene0, gene_feature) {
+preprocessSNP1 <- function(gene0, gene_feature) { # This is the old version
   # inut a gene name,
   # then the function will read all the SNP information for this gene
   # output
   # a dataframe contains each SNP information which including:
   # chrosome, geneName, ref, alf and completment sign
   infile <- paste("data/gene_snp/", gene0, sep = "")
+  mutated_test <- read.table(infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
+  colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
+  mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
+  mutated_gene0 <- mutated_test
+  for (i in seq(length(mutated_gene0$Chr))) {
+    if (mutated_gene0$complement_sign[i]) {
+      mutated_gene0$Ref[i] <- changeATCG(mutated_gene0$Ref[i])
+      mutated_gene0$Alt[i] <- changeATCG(mutated_gene0$Alt[i])
+    } else {
+      mutated_gene0$Ref[i] <- mutated_gene0$Ref[i]
+      mutated_gene0$Alt[i] <- mutated_gene0$Alt[i]
+    }
+  }
+
+  return(mutated_gene0)
+}
+
+
+
+#' List genes with SNPs
+#'
+#' Obtain the gene list which have SNP, in total there are 36 metabolic genes which
+#' don't have the mutation
+#'
+#' @param snp_files_dir0 A fold dir contains the detailed snp information for each gene
+#' @return A vector contain the gene name
+#' @export
+#'
+#' @examples
+#' # Firstly, open one R project
+#' # Then put the SNP file in the directory of "xx/data"
+#' getGeneNameWithSNP()
+getGeneNameWithSNP <- function(snp_files_dir0 = "data/gene_snp/") {
+  #input
+  #the dir of  file 'gene_snp', the file contains the snp from each gene
+  #output
+  #the gene list with the snp
+  gene_SNP_sum <- list.files(snp_files_dir0)
+  s <- vector()
+  for (i in seq_along(gene_SNP_sum)) {
+    file0 <- paste(snp_files_dir0, gene_SNP_sum[i], sep = "")
+    s[i] <- file.info(file0)$size
+  }
+  indexNull <- which(s != 0)
+  gene_withSNP <- gene_SNP_sum[indexNull]
+  return(gene_withSNP)
+}
+
+
+
+#' Prepare SNPs list for one gene
+#'
+#' Proprocess all the snp for one gene belong to a sample set
+#' it should be noted that if the gene belong to minus strand, changeATCG function will be used
+#' be careful about the file directory
+#'
+#' @param gene0 A string representing the gene systematic name
+#' @param gene_feature A dataframe contains the detailed annotation of gene from database
+#' @param snp_files_dir0 A fold dir contains the detailed snp information for each gene
+#' @return  A dataframe contains each SNP information which including: chrosome, geneName, ref, alf and completment sign
+#' @export
+#'
+#' @examples
+#' data('gene_feature0')
+#' preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0)
+preprocessSNP <- function(gene0, gene_feature, snp_files_dir0 = "data/gene_snp/") {
+  # inut
+  # a gene name,
+  # the gene snp file
+  # output
+  # a dataframe contains each SNP information which including:
+  # chrosome, geneName, ref, alf and completment sign
+  infile <- paste(snp_files_dir0, gene0, sep = "")
   mutated_test <- read.table(infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
   colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
   mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
