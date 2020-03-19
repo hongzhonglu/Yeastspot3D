@@ -239,6 +239,8 @@ snpFilterBasedMAF <- function(snp_df, filter_type, maf_value, unique_sign=FALSE)
 #' # Then put the SNP file in the directory of "xx/data"
 #' getGeneNameWithSNP()
 getGeneNameWithSNP <- function(snp_files_dir0 = "data/gene_snp/") {
+
+  # This is new version
   #input
   #the dir of  file 'gene_snp', the file contains the snp from each gene
   #output
