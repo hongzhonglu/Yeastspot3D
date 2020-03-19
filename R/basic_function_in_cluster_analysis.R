@@ -140,22 +140,30 @@ getGeneNameWithSNP1 <- function() { # This is the old version
 #'
 #' @param gene0 A string representing the gene systematic name
 #' @param gene_feature A dataframe contains the detailed annotation of gene from database
+#' @param snp_files_dir0 The directory of SNP
 #'
 #' @return  A dataframe contains each SNP information which including: chrosome, geneName, ref, alf and completment sign
 #' @export
 #'
 #' @examples
 #' data('gene_feature0')
-#' preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0)
-preprocessSNP1 <- function(gene0, gene_feature) { # This is the old version
-  # inut a gene name,
-  # then the function will read all the SNP information for this gene
+#' preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0, snp_files_dir0 = "data/gene_snp/")
+preprocessSNP <- function(gene0, gene_feature, snp_files_dir0 = "data/gene_snp/") {
+  # inut
+  # a gene name,
+  # the gene snp file
   # output
   # a dataframe contains each SNP information which including:
   # chrosome, geneName, ref, alf and completment sign
-  infile <- paste("data/gene_snp/", gene0, sep = "")
+  infile <- paste(snp_files_dir0, gene0, sep = "")
   mutated_test <- read.table(infile, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
-  colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
+  if (ncol(mutated_test)==6) {
+    colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt")
+  } else if (ncol(mutated_test)==8) {
+    colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt", "AF", "snp_type") # for snp with type: homogenous
+  } else{
+    colnames(mutated_test) <- c("strain", "Gene2", "Chr", "Pos", "Ref", "Alt", "AF") # for snp without type, this is used for 971 strains dataset
+  }
   mutated_test$complement_sign <- getSingleMatchParameter(gene_feature$complement_sign, gene_feature$locus_tag, mutated_test$Gene2)
   mutated_gene0 <- mutated_test
   for (i in seq(length(mutated_gene0$Chr))) {
@@ -169,6 +177,50 @@ preprocessSNP1 <- function(gene0, gene_feature) { # This is the old version
   }
 
   return(mutated_gene0)
+}
+
+
+
+#' Filter snp value based on maf_value
+#'
+#' @param snp_df snp_ds is a dataframe obtained based on preprocessSNP
+#' @param filter_type "smaller" or "bigger"
+#' @param maf_value MAF of snp
+#' @param unique_sign "TRUE" or "FALSE". The default is FALSE. If unique_sign is TRUE, the unqiue snp will be returned
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' data('gene_feature0')
+#' snp_df <- preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0, snp_files_dir0 = "data/gene_snp/")
+#' snp_df1 <- snpFilterBasedMAF(snp_df, filter_type="bigger", maf_value=0.05, unique_sign=FALSE)
+
+snpFilterBasedMAF <- function(snp_df, filter_type, maf_value, unique_sign=FALSE){
+  # This function is used to filter snp value based on maf_value
+
+
+  # the snp_ds is firstly obtained based on preprocessSNP
+  # filter_type can be "smaller" or "bigger"
+  # unique_sign can be "TRUE" or "FALSE". The default is FALSE. If unique_sign is TRUE, the unqiue snp will be returned
+  # fistly check the columns name
+  col_name0 <- colnames(snp_df)
+  if("AF" %in% col_name0){
+    if(filter_type=="smaller"){
+      snp_df0 <- snp_df %>% filter(.,AF <= maf_value)
+    } else{
+      snp_df0 <- snp_df %>% filter(.,AF >= maf_value)
+    }
+
+  } else {
+    print("Please check whether the snp dataframe contains the MAF information")
+  }
+
+  if(unique_sign){
+    snp_df0$combined_inf <- paste(snp_df0$Pos, snp_df0$Ref,snp_df0$Alt, sep = "&")
+    snp_df0 <-snp_df0[!duplicated(snp_df0$combined_inf), ]
+  }
+  return(snp_df0)
 }
 
 
