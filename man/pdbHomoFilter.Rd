@@ -4,8 +4,13 @@
 \alias{pdbHomoFilter}
 \title{Modeled PDB files filtration}
 \usage{
-pdbHomoFilter(pdb_homo, qmean0 = -4, identity0 = 25,
-  similarity0 = 0.31, resolution0 = 3.4)
+pdbHomoFilter(
+  pdb_homo,
+  qmean0 = -4,
+  identity0 = 25,
+  similarity0 = 0.31,
+  resolution0 = 3.4
+)
 }
 \arguments{
 \item{pdb_homo}{A dataframe contains paramters for each homology pdb file}

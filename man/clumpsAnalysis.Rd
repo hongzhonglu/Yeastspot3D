@@ -4,8 +4,15 @@
 \alias{clumpsAnalysis}
 \title{Mutation enrichment analysis}
 \usage{
-clumpsAnalysis(gene0, SNPlist0, gene_annotation0, pdb, sstart0, send0,
-  input_dir = TRUE)
+clumpsAnalysis(
+  gene0,
+  SNPlist0,
+  gene_annotation0,
+  pdb,
+  sstart0,
+  send0,
+  input_dir = TRUE
+)
 }
 \arguments{
 \item{gene0}{A gene systematic name}

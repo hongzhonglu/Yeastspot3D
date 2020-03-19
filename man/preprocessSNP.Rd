@@ -4,22 +4,34 @@
 \alias{preprocessSNP}
 \title{Prepare SNPs list for one gene}
 \usage{
-preprocessSNP(gene0, gene_feature)
+preprocessSNP(gene0, gene_feature, snp_files_dir0 = "data/gene_snp/")
+
+preprocessSNP(gene0, gene_feature, snp_files_dir0 = "data/gene_snp/")
 }
 \arguments{
 \item{gene0}{A string representing the gene systematic name}
 
 \item{gene_feature}{A dataframe contains the detailed annotation of gene from database}
+
+\item{snp_files_dir0}{A fold dir contains the detailed snp information for each gene}
 }
 \value{
+A dataframe contains each SNP information which including: chrosome, geneName, ref, alf and completment sign
+
 A dataframe contains each SNP information which including: chrosome, geneName, ref, alf and completment sign
 }
 \description{
 Proprocess all the snp for one gene belong to a sample set
 it should be noted that if the gene belong to minus strand, changeATCG function will be used
 be careful about the file directory
+
+Proprocess all the snp for one gene belong to a sample set
+it should be noted that if the gene belong to minus strand, changeATCG function will be used
+be careful about the file directory
 }
 \examples{
+data('gene_feature0')
+preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0, snp_files_dir0 = "data/gene_snp/")
 data('gene_feature0')
 preprocessSNP(gene0 = 'YPR184W', gene_feature = gene_feature0)
 }
