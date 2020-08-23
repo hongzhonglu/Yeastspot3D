@@ -16,7 +16,7 @@ License: MIT + file LICENSE
 URL: https://github.com/hongzhonglu/Yeastspot3D
 BugReports: https://github.com/hongzhonglu/Yeastspot3D/issues
 Depends: 
-    R (>= 3.5.2)
+    R (>= 3.5.0)
 Imports:
     dplyr (>= 1.3.0),
     magrittr (>= 1.5),
