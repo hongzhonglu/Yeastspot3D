@@ -18,6 +18,8 @@ export("sampleStand")
 export("getTotalWAP")
 export("getSampleWAP")
 export("getPvalue")
+export("getSingleMatchParameter")
+
 
 import(tidyverse)
 import(magrittr)
