@@ -19,7 +19,7 @@ export("getTotalWAP")
 export("getSampleWAP")
 export("getPvalue")
 export("getSingleMatchParameter")
-
+export("changeATCG")
 
 import(tidyverse)
 import(magrittr)
