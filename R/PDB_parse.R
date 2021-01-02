@@ -146,6 +146,9 @@ pdbHomoFilter <- function(pdb_homo, qmean0=-4, identity0=25, similarity0=0.31, r
   } else{
     print('Please prepare the detailed parameters for the quality analysis')
   }
+
+  # this function missing return() 
+
 }
 
 
@@ -181,6 +184,8 @@ pdbExFilter <- function(pdb_EX, pident0=100, mismatch0=0, resolution0=3.4 ){
   } else{
     print('Please prepare the detailed parameters for the quality analysis')
   }
+  
+  # this function missing return() 
 }
 
 
