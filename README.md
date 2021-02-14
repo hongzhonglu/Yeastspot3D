@@ -1,6 +1,6 @@
 # Yeastspot3D
 This repository contains R scripts for package Yeastspot3D.
-* Last update: 2019-06-12
+* Last update: 2021-02-14
 
 ## Overview
 The Yeastspot3D package allows for mutation mapping analysis for yeast based on protein 3D structure in an easy and flexible way. It could not only explore mutation distribution on the structure as a whole, but also provides HotSpot analysis within a protein structure.
@@ -30,6 +30,17 @@ To get the current development version from github:
 # install.packages("devtools")
 devtools::install_github("hongzhonglu/Yeastspot3D")
 ```
+
+The other packages need to be installed, as an example:
+
+```R
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biostrings")
+
+```
+Other packages could be installed direcly using function - install.packages
 
 
 ## Usage
